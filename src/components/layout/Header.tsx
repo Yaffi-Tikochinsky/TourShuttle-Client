@@ -45,7 +45,7 @@ export function Header() {
             {visibleItems.map((item) => (
               <li key={item.to}>
                 {/* NavLink knows whether its route is the current one and styles itself as active. */}
-                <NavLink to={item.to} end className={({ isActive }) => cx(styles.navLink, isActive && styles.active)}>
+                <NavLink to={item.to} end viewTransition className={({ isActive }) => cx(styles.navLink, isActive && styles.active)}>
                   {item.label}
                 </NavLink>
               </li>

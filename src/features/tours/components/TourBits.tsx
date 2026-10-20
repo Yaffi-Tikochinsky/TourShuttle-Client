@@ -1,6 +1,7 @@
 import { Clock } from 'lucide-react'
 import type { TourDisplayStatus } from '@/api/types'
 import { Badge } from '@/components/ui'
+import { useInView } from '@/hooks/useInView'
 import { useNow } from '@/hooks/useNow'
 import { cx } from '@/lib/cx'
 import { formatRelativeDeparture, formatSeats } from '@/lib/format'
@@ -37,6 +38,8 @@ export function DepartureCountdown({ departureAt, className }: { departureAt: st
  * Under a third left turns gold ("last seats"), none left turns clay.
  */
 export function SeatsMeter({ capacity, availableSeats }: { capacity: number; availableSeats: number }) {
+  // The bar fills from empty the first time it scrolls into view (a CSS transition on its width).
+  const [ref, inView] = useInView<HTMLDivElement>()
   const taken = capacity - availableSeats
   const ratioLeft = capacity > 0 ? availableSeats / capacity : 0
   const level = availableSeats === 0 ? 'full' : ratioLeft <= 1 / 3 ? 'low' : 'ok'
@@ -44,7 +47,7 @@ export function SeatsMeter({ capacity, availableSeats }: { capacity: number; ava
     level === 'full' ? 'כל המקומות נתפסו' : level === 'low' ? `נותרו ${formatSeats(availableSeats)} אחרונים` : `נותרו ${formatSeats(availableSeats)}`
 
   return (
-    <div className={styles.meter} data-level={level}>
+    <div className={styles.meter} data-level={level} ref={ref}>
       <div
         className={styles.track}
         role="meter"
@@ -54,7 +57,7 @@ export function SeatsMeter({ capacity, availableSeats }: { capacity: number; ava
         aria-valuenow={taken}
         aria-valuetext={label}
       >
-        <span className={styles.fill} style={{ width: `${capacity > 0 ? (taken / capacity) * 100 : 0}%` }} />
+        <span className={styles.fill} style={{ width: inView && capacity > 0 ? `${(taken / capacity) * 100}%` : 0 }} />
       </div>
       <span className={styles.meterText}>
         {label}

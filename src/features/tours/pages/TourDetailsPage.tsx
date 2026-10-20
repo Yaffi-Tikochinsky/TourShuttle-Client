@@ -36,7 +36,7 @@ export default function TourDetailsPage() {
         <Blob shape={0} tone={0} style={{ top: -160, insetInlineStart: -160, width: 480 }} />
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroText}>
-            <Link to="/tours" className={styles.back}>
+            <Link to="/tours" viewTransition className={styles.back}>
               <ArrowRight aria-hidden="true" />
               לכל ההסעות
             </Link>

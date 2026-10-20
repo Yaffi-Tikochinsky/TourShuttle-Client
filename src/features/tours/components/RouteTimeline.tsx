@@ -22,7 +22,7 @@ export function RouteTimeline({ stops, destinationName, destinationCity, selecte
         <li
           key={stop.pickupPointId}
           className={cx(styles.stop, stop.pickupPointId === selectedStopId && styles.selected)}
-          style={{ animationDelay: `${index * 90}ms` }}
+          style={{ animationDelay: `${index * 180}ms` }}
         >
           <span className={styles.marker} aria-hidden="true" />
           <div className={styles.place}>
@@ -35,7 +35,7 @@ export function RouteTimeline({ stops, destinationName, destinationCity, selecte
           </time>
         </li>
       ))}
-      <li className={cx(styles.stop, styles.destination)} style={{ animationDelay: `${stops.length * 90}ms` }}>
+      <li className={cx(styles.stop, styles.destination)} style={{ animationDelay: `${stops.length * 180}ms` }}>
         <span className={styles.marker} aria-hidden="true" />
         <div className={styles.place}>
           <span className={styles.name}>{destinationName}</span>

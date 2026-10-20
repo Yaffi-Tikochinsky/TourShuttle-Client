@@ -21,15 +21,16 @@
   padding: var(--space-6);
 }
 
+/* Lifts slowly and settles: a long ease-out, so the card floats up rather than jumps. */
 .interactive {
   transition:
-    transform var(--duration-normal) var(--ease-out),
-    box-shadow var(--duration-normal) var(--ease-out),
+    transform 600ms var(--ease-out),
+    box-shadow 600ms var(--ease-out),
     border-color var(--duration-normal) var(--ease-out);
 }
 
 .interactive:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
   border-color: var(--color-border-strong);
 }

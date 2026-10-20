@@ -12,7 +12,7 @@ export function TourCard({ tour }: { tour: TourSummary }) {
     <Card as="article" padding="md" interactive className={styles.card}>
       <header className={styles.header}>
         <h3 className={styles.title}>
-          <Link to={`/tours/${tour.id}`} className={styles.link}>
+          <Link to={`/tours/${tour.id}`} viewTransition className={styles.link}>
             {tour.destinationName}
           </Link>
         </h3>

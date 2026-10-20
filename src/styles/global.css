@@ -93,10 +93,10 @@ textarea {
 /* Content revealed softly as it scrolls into view (see components/motion/Reveal). */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(22px);
   transition:
-    opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
+    opacity var(--duration-entrance) var(--ease-out),
+    transform var(--duration-entrance) var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
@@ -121,6 +121,30 @@ textarea {
 .container {
   width: min(100% - 2 * var(--space-5), var(--container-width));
   margin-inline: auto;
+}
+
+/* ---------- Page transitions (View Transitions API, used by links with viewTransition) ----------
+   The old page fades out and the new one rises in softly. The header has its own name,
+   so it stays still while the content beneath it changes. */
+::view-transition-old(root) {
+  animation: page-out 420ms var(--ease-soft) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in 620ms var(--ease-out) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
 /* People who asked their system for less motion get none. */

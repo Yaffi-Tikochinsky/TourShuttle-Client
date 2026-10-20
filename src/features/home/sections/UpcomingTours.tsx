@@ -21,7 +21,7 @@ export function UpcomingTours() {
           title="הסעות קרובות"
           subtitle="המקומות מתמלאים, כדאי להקדים"
           action={
-            <Link to="/tours" className={styles.sectionLink}>
+            <Link to="/tours" viewTransition className={styles.sectionLink}>
               לכל ההסעות
               <ArrowLeft aria-hidden="true" />
             </Link>

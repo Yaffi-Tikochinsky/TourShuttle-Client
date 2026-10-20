@@ -11,7 +11,7 @@
   align-items: start;
   gap: var(--space-3);
   padding-bottom: var(--space-5);
-  animation: arrive var(--duration-slow) var(--ease-out) both;
+  animation: arrive var(--duration-entrance) var(--ease-out) both;
 }
 
 /* The dashed path to the next stop */
@@ -73,6 +73,17 @@
   border-color: var(--art-accent);
   background: var(--art-accent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--art-accent) 22%, transparent);
+  animation: glow 6s var(--ease-soft) infinite;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--art-accent) 22%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--art-accent) 10%, transparent);
+  }
 }
 
 .destination {

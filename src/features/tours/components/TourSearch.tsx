@@ -31,7 +31,7 @@ export function TourSearch({ defaultCity = '', defaultDestinationId, variant = '
     const destinationId = String(form.get('destinationId') ?? '')
     if (city) params.set('city', city)
     if (destinationId) params.set('destinationId', destinationId)
-    navigate(`/tours${params.size ? `?${params}` : ''}`)
+    navigate(`/tours${params.size ? `?${params}` : ''}`, { viewTransition: true })
     return null
   }, null)
 

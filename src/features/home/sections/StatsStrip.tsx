@@ -1,29 +1,22 @@
 import { Skeleton } from '@/components/ui'
-import { Reveal } from '@/components/motion/Reveal'
 import { useCities, useDestinations, useTours } from '@/features/tours/hooks/useTourData'
+import { useCountUp } from '@/hooks/useCountUp'
+import { useInView } from '@/hooks/useInView'
 import styles from '../HomePage.module.css'
 
-/** Live numbers from the API, not marketing copy: they change as tours are added and booked. */
+/** Live numbers from the API, not marketing copy. They count up softly the first time the strip comes into view. */
 export function StatsStrip() {
   // pageSize 1: only the total count is needed, so the server sends a single row.
   const tours = useTours({ pageSize: 1 })
   const destinations = useDestinations()
   const cities = useCities()
-
-  const stats = [
-    { value: tours.data?.totalCount, label: 'הסעות קרובות' },
-    { value: destinations.data?.length, label: 'אתרים קדושים' },
-    { value: cities.status === 'success' ? cities.data.length : undefined, label: 'ערים עם תחנות איסוף' },
-  ]
+  const [ref, inView] = useInView<HTMLDivElement>()
 
   return (
-    <Reveal className={`container ${styles.stats}`}>
-      {stats.map((stat) => (
-        <div key={stat.label} className={styles.stat}>
-          <span className={styles.statValue}>{stat.value ?? <Skeleton width="2.5rem" height="2rem" />}</span>
-          <span className={styles.statLabel}>{stat.label}</span>
-        </div>
-      ))}
+    <div ref={ref} className={`container reveal ${styles.stats}`} data-visible={inView}>
+      <Stat value={tours.data?.totalCount} label="הסעות קרובות" start={inView} />
+      <Stat value={destinations.data?.length} label="אתרים קדושים" start={inView} />
+      <Stat value={cities.status === 'success' ? cities.data.length : undefined} label="ערים עם תחנות איסוף" start={inView} />
       <div className={styles.stat}>
         {/* A range of numbers inside RTL text would read "3–1" without an explicit left-to-right island. */}
         <span className={styles.statValue}>
@@ -31,6 +24,16 @@ export function StatsStrip() {
         </span>
         <span className={styles.statLabel}>דקות בין תחנה לתחנה, לפי העומס</span>
       </div>
-    </Reveal>
+    </div>
+  )
+}
+
+function Stat({ value, label, start }: { value: number | undefined; label: string; start: boolean }) {
+  const shown = useCountUp(value, start)
+  return (
+    <div className={styles.stat}>
+      <span className={styles.statValue}>{shown ?? <Skeleton width="2.5rem" height="2rem" />}</span>
+      <span className={styles.statLabel}>{label}</span>
+    </div>
   )
 }

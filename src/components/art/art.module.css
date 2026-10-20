@@ -23,33 +23,34 @@
    so lines are a touch heavier than they look in the SVG source, to stay crisp when scaled down. */
 .line {
   stroke: var(--art-line);
-  stroke-width: 1.8;
+  stroke-width: 1.9;
 }
 
 .lineThin {
   stroke: var(--art-line);
-  stroke-width: 1;
-  opacity: 0.45;
+  stroke-width: 1.1;
+  opacity: 0.55;
 }
 
 .olive {
   stroke: var(--art-olive);
-  stroke-width: 1.7;
+  stroke-width: 1.8;
 }
 
 .accent {
   stroke: var(--art-accent);
-  stroke-width: 1.3;
+  stroke-width: 1.4;
 }
 
 .soft {
   stroke: var(--art-line-soft);
-  stroke-width: 1;
+  stroke-width: 1.1;
 }
 
+/* Dashed paths never move: a dash pattern that flows on a loop is tiring to look at. */
 .path {
   stroke: var(--art-path);
-  stroke-width: 1.2;
+  stroke-width: 1.4;
   stroke-dasharray: 3 5;
 }
 
@@ -76,51 +77,94 @@
 .waterStroke {
   fill: var(--art-water);
   stroke: var(--art-line);
-  stroke-width: 1;
+  stroke-width: 1.1;
 }
 
 .accentFill {
   fill: var(--art-accent);
 }
 
-/* ---------- Motion: slow and quiet, off when the system asks for less motion (global.css) ---------- */
+/* ---------- Living details: slow, small, endless, and soft at both ends of every cycle ---------- */
+
+/* A whole sprig sways from its foot */
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 16s var(--ease-soft) infinite;
+}
+
+/* Each leaf turns a few degrees on its own base, on its own timing (set inline by OliveSprig) */
+.leaf {
+  transform-box: fill-box;
+  animation: rustle 10s var(--ease-soft) infinite;
+}
+
+.leafLeft {
+  transform-origin: 100% 100%;
+}
+
+.leafRight {
+  transform-origin: 0% 100%;
+}
+
+/* Specks of dust rising and fading in the light */
 .mote {
   fill: var(--art-accent);
-  animation: float 9s var(--ease-in-out) infinite;
+  animation: float 16s var(--ease-soft) infinite;
 }
 
 .mote:nth-of-type(2n) {
-  animation-duration: 12s;
-  animation-delay: -4s;
-}
-
-.mote:nth-of-type(3n) {
-  animation-duration: 15s;
+  animation-duration: 21s;
   animation-delay: -7s;
 }
 
-.sway {
-  transform-box: fill-box;
-  transform-origin: bottom center;
-  animation: sway 9s var(--ease-in-out) infinite;
+.mote:nth-of-type(3n) {
+  animation-duration: 26s;
+  animation-delay: -12s;
 }
 
+/* Light that slowly brightens and dims, like a cloud passing */
+.breathe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: breathe 14s var(--ease-soft) infinite;
+}
+
+/* A window of warm light, flickering very gently */
+.flicker {
+  animation: flicker 11s var(--ease-soft) infinite;
+}
+
+.flicker:nth-of-type(2n) {
+  animation-delay: -4s;
+}
+
+/* A ring spreading on still water */
+.ripple {
+  fill: none;
+  stroke: var(--art-line);
+  stroke-width: 0.9;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ripple 9s var(--ease-out) infinite;
+}
+
+.ripple:nth-of-type(2n) {
+  animation-delay: -4.5s;
+}
+
+/* Mist drifting across a hillside */
+.mist {
+  fill: var(--color-bg);
+  opacity: 0.55;
+  animation: mist 38s var(--ease-soft) infinite;
+}
+
+/* A line that draws itself once, when the drawing appears */
 .drawIn {
   stroke-dasharray: 600;
   stroke-dashoffset: 600;
-  animation: draw 2.4s var(--ease-out) 0.3s forwards;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0);
-    opacity: 0.15;
-  }
-  50% {
-    transform: translate(-4px, -12px);
-    opacity: 0.7;
-  }
+  animation: draw 3.2s var(--ease-out) 0.4s forwards;
 }
 
 @keyframes sway {
@@ -129,7 +173,80 @@
     transform: rotate(0deg);
   }
   50% {
-    transform: rotate(-1.5deg);
+    transform: rotate(-1.6deg);
+  }
+}
+
+@keyframes rustle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  35% {
+    transform: rotate(-4deg);
+  }
+  70% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.1;
+  }
+  45% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-5px, -16px);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.7;
+    transform: scale(0.35);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes mist {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-36px);
   }
 }
 
@@ -145,20 +262,20 @@
   z-index: 0;
   pointer-events: none;
   opacity: var(--blob-opacity);
-  animation: drift 26s var(--ease-in-out) infinite;
+  animation: drift 40s var(--ease-soft) infinite;
 }
 
 .blob:nth-child(2n) {
-  animation-duration: 32s;
+  animation-duration: 48s;
   animation-direction: reverse;
 }
 
 @keyframes drift {
   0%,
   100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    transform: translate(0, 0) rotate(0deg);
   }
   50% {
-    transform: translate(14px, -10px) rotate(4deg) scale(1.03);
+    transform: translate(16px, -12px) rotate(5deg);
   }
 }

@@ -16,7 +16,7 @@ export function Footer() {
             <p className={styles.text}>הסעות מאורגנות לסיורים במקומות הקדושים: מהכותל המערבי ועד סמטאות צפת.</p>
           </div>
           <nav aria-label="קישורים בתחתית הדף" className={styles.links}>
-            <Link to="/tours">כל ההסעות</Link>
+            <Link to="/tours" viewTransition>כל ההסעות</Link>
             <Link to="/login">התחברות</Link>
             <Link to="/register">פתיחת חשבון</Link>
           </nav>

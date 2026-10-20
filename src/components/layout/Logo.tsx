@@ -4,7 +4,7 @@ import styles from './Logo.module.css'
 /** A gate of the Old City in fine line over a road, with an olive leaf: the brand mark, drawn as inline SVG. */
 export function Logo() {
   return (
-    <Link to="/" className={styles.logo} aria-label="שבילי קדם, לדף הבית">
+    <Link to="/" viewTransition className={styles.logo} aria-label="שבילי קדם, לדף הבית">
       <svg viewBox="0 0 48 48" className={styles.mark} aria-hidden="true">
         <path d="M11 40V24a13 13 0 0 1 26 0v16" className={styles.arch} />
         <path d="M17 40V25a7 7 0 0 1 14 0v15" className={styles.inner} />

@@ -43,7 +43,7 @@ export function DestinationsSection() {
                 </div>
                 <div className={styles.destinationBody}>
                   <h3 className={styles.destinationName}>
-                    <Link to={`/tours?destinationId=${destination.id}`} className={styles.stretchedLink}>
+                    <Link to={`/tours?destinationId=${destination.id}`} viewTransition className={styles.stretchedLink}>
                       {destination.name}
                     </Link>
                   </h3>

@@ -81,15 +81,15 @@
   /* ---------- Semantic: illustrations ---------- */
   /* Every SVG in components/art draws with these, so it switches to night with the rest of the page. */
   --art-line: var(--dusk-700);
-  --art-line-soft: var(--stone-300);
+  --art-line-soft: var(--stone-400);
   --art-olive: var(--olive-600);
   --art-accent: var(--gold-500);
   --art-water: var(--sky-200);
-  --art-paper: var(--stone-50);
-  --art-glow: #f8eccb;
-  --art-hill-far: var(--sage-100);
-  --art-hill-near: var(--sage-200);
-  --art-path: var(--stone-400);
+  --art-paper: #fbf2df;
+  --art-glow: #f3dca6;
+  --art-hill-far: var(--sage-200);
+  --art-hill-near: var(--sage-300);
+  --art-path: var(--stone-600);
   --blob-1: var(--sage-100);
   --blob-2: var(--sage-200);
   --blob-3: var(--sage-50);
@@ -132,12 +132,19 @@
   --container-width: 1160px;
   --header-height: 72px;
 
-  /* Soft, unhurried motion */
-  --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+  /*
+    Motion: present everywhere, never loud. Soft curves that start and end gently, and slow durations.
+    - ease-out:  entrances and hover (a long, quiet settle at the end)
+    - ease-soft: endless loops (a sine-like in-and-out, so a loop has no visible start or stop)
+    Loops are slow (12-40 s) and small; nothing flows or blinks continuously.
+  */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
-  --duration-fast: 140ms;
-  --duration-normal: 260ms;
-  --duration-slow: 700ms;
+  --ease-soft: cubic-bezier(0.37, 0, 0.63, 1);
+  --duration-fast: 180ms;
+  --duration-normal: 380ms;
+  --duration-slow: 1100ms;
+  --duration-entrance: 1400ms;
 
   color-scheme: light;
 }
