@@ -1,0 +1,32 @@
+.footer {
+  margin-top: var(--space-8);
+  padding-block: var(--space-6) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-muted);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+.text {
+  max-width: 48ch;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.copy {
+  margin-top: var(--space-5);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}

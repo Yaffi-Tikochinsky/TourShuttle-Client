@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="שבילי קדם: הסעות מאורגנות לסיורים במקומות הקדושים. מזמינים מקום, בוחרים תחנת איסוף ויוצאים לדרך." />
+    <meta name="theme-color" content="#F5EEE0" />
+    <title>שבילי קדם · הסעות למקומות הקדושים</title>
+    <script>
+      // Runs before the first paint, before React loads: a visitor who chose dark mode never sees a flash of
+      // the light theme. Same key and rules as ThemeProvider, which takes over once React starts.
+      ;(function () {
+        try {
+          var preference = JSON.parse(localStorage.getItem('tourshuttle.theme') || '"system"')
+          var dark =
+            preference === 'dark' ||
+            (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+        } catch (error) {
+          // Storage blocked: ThemeProvider will apply the system theme after loading.
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

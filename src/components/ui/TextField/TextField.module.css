@@ -1,0 +1,92 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--color-heading);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.input {
+  min-height: 2.875rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  transition:
+    border-color var(--duration-fast),
+    box-shadow var(--duration-fast);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+.input:hover {
+  border-color: var(--color-primary);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.invalid {
+  border-color: var(--color-danger);
+}
+
+.message {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.errorMessage {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* ---------- Password ---------- */
+.passwordWrapper {
+  position: relative;
+}
+
+/* Physical left, not inset-inline-end: the password input is dir="ltr" inside an RTL page,
+   so its logical "end" is on the right while the button sits on the left. */
+.passwordWrapper .input {
+  padding-left: 2.75rem;
+}
+
+.reveal {
+  position: absolute;
+  left: var(--space-2);
+  top: calc(var(--text-sm) * 1.65 + var(--space-1) + 0.45rem);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.reveal:hover {
+  color: var(--color-heading);
+  background: var(--color-bg-muted);
+}
+
+.reveal svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}

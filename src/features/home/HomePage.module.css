@@ -1,0 +1,32 @@
+.hero {
+  padding-block: var(--space-8);
+  background:
+    radial-gradient(ellipse at 15% 20%, color-mix(in srgb, var(--gold-300) 35%, transparent), transparent 55%),
+    radial-gradient(ellipse at 85% 80%, color-mix(in srgb, var(--sky-200) 55%, transparent), transparent 60%),
+    var(--color-bg);
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  margin-top: var(--space-3);
+  font-size: var(--text-3xl);
+}
+
+.lead {
+  max-width: 52ch;
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}

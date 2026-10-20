@@ -1,0 +1,165 @@
+/*
+  Design tokens: every color, size and shadow in the app comes from here.
+  Two layers:
+  1. Palette  - raw colors with names (stone, olive, sky, dusk, gold, clay). Never used directly by components.
+  2. Semantic - what a color is FOR (--color-surface, --color-primary...). Components use only these,
+     so dark mode is just a second set of semantic values below.
+*/
+:root {
+  /* ---------- Palette ---------- */
+  /* Jerusalem stone: the beige scale */
+  --stone-50: #fbf7ef;
+  --stone-100: #f5eee0;
+  --stone-200: #ebddc4;
+  --stone-300: #e2cfae;
+  --stone-400: #c7ac82;
+  --stone-500: #a88d68;
+  --stone-600: #8c7355;
+  --stone-800: #5a4a37;
+  --stone-900: #3a3024;
+
+  /* Olive: trees and terraces */
+  --olive-100: #e3e6cf;
+  --olive-200: #cdd2ac;
+  --olive-300: #a8ae7a;
+  --olive-500: #6f7a45;
+  --olive-600: #5c6739;
+  --olive-700: #4a5530;
+
+  /* Sky: pale light blue */
+  --sky-50: #eaf3f7;
+  --sky-100: #d6e9f1;
+  --sky-200: #bfdce8;
+  --sky-400: #8fbfd3;
+  --sky-600: #5f98b0;
+
+  /* Dusk: muted blue for text and shadows */
+  --dusk-300: #8ea3b6;
+  --dusk-500: #5f7891;
+  --dusk-700: #3e5468;
+  --dusk-800: #2f4152;
+  --dusk-900: #1f2b37;
+
+  /* Accents */
+  --gold-300: #ecc77b;
+  --gold-500: #d9a441;
+  --gold-700: #9c7124;
+  --clay-100: #f3ddd4;
+  --clay-500: #b9694a;
+  --clay-700: #8e4a31;
+
+  /* ---------- Semantic (light) ---------- */
+  --color-bg: var(--stone-50);
+  --color-bg-muted: var(--stone-100);
+  --color-surface: #fffdf8;
+  --color-surface-raised: #ffffff;
+  --color-border: var(--stone-200);
+  --color-border-strong: var(--stone-400);
+
+  --color-text: var(--dusk-900);
+  --color-text-muted: var(--stone-600);
+  --color-heading: var(--dusk-700);
+
+  --color-primary: var(--olive-600);
+  --color-primary-hover: var(--olive-700);
+  --color-primary-soft: var(--olive-100);
+  --color-on-primary: #fffdf6;
+
+  --color-accent: var(--sky-600);
+  --color-accent-soft: var(--sky-50);
+  --color-link: var(--dusk-500);
+
+  --color-success: var(--olive-500);
+  --color-success-soft: var(--olive-100);
+  --color-warning: var(--gold-700);
+  --color-warning-soft: #f7ecd2;
+  --color-danger: var(--clay-700);
+  --color-danger-soft: var(--clay-100);
+  --color-info: var(--dusk-500);
+  --color-info-soft: var(--sky-50);
+
+  --color-focus: var(--sky-600);
+  --color-overlay: rgb(31 43 55 / 0.45);
+
+  /* ---------- Typography ---------- */
+  --font-display: 'Frank Ruhl Libre', 'David', serif;
+  --font-body: 'Assistant', 'Segoe UI', 'Arial', sans-serif;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --leading-tight: 1.2;
+  --leading-normal: 1.65;
+
+  /* ---------- Space, shape, depth ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(90 74 55 / 0.08);
+  --shadow-md: 0 6px 18px -6px rgb(90 74 55 / 0.22);
+  --shadow-lg: 0 18px 40px -12px rgb(62 84 104 / 0.3);
+
+  --container-width: 1180px;
+  --header-height: 72px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-normal: 220ms;
+
+  color-scheme: light;
+}
+
+/* ---------- Semantic (dark): a night in the Old City ---------- */
+:root[data-theme='dark'] {
+  --color-bg: #161e27;
+  --color-bg-muted: #1c2631;
+  --color-surface: #212d39;
+  --color-surface-raised: #283646;
+  --color-border: #34465a;
+  --color-border-strong: #4c6378;
+
+  --color-text: #ece3d3;
+  --color-text-muted: #b6a68c;
+  --color-heading: var(--stone-200);
+
+  --color-primary: var(--olive-300);
+  --color-primary-hover: var(--olive-200);
+  --color-primary-soft: rgb(168 174 122 / 0.16);
+  --color-on-primary: #1d2412;
+
+  --color-accent: var(--sky-400);
+  --color-accent-soft: rgb(143 191 211 / 0.14);
+  --color-link: var(--sky-200);
+
+  --color-success: var(--olive-300);
+  --color-success-soft: rgb(168 174 122 / 0.16);
+  --color-warning: var(--gold-300);
+  --color-warning-soft: rgb(217 164 65 / 0.16);
+  --color-danger: #e29a7d;
+  --color-danger-soft: rgb(185 105 74 / 0.2);
+  --color-info: var(--sky-200);
+  --color-info-soft: rgb(143 191 211 / 0.14);
+
+  --color-focus: var(--sky-400);
+  --color-overlay: rgb(8 12 16 / 0.6);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 8px 20px -8px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 20px 44px -12px rgb(0 0 0 / 0.6);
+
+  color-scheme: dark;
+}

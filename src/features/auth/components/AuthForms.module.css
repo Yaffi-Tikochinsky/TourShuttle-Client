@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 520px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Demo accounts ---------- */
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.demoTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+.demoTitle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.demoText {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.demoButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

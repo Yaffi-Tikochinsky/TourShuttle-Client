@@ -1,0 +1,31 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
+  text-align: center;
+}
+
+.visual {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.visual svg {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.title {
+  font-size: var(--text-xl);
+}
+
+.description {
+  max-width: 46ch;
+  color: var(--color-text-muted);
+}
+
+.action {
+  margin-top: var(--space-3);
+}

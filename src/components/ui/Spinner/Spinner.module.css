@@ -1,0 +1,47 @@
+.spinner {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sm svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.md svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.lg svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Element selectors in a CSS module are global, so this one is scoped under .spinner. */
+.spinner svg {
+  animation: rotate 0.9s linear infinite;
+}
+
+.track,
+.arc {
+  fill: none;
+  stroke-width: 3;
+}
+
+.track {
+  stroke: currentColor;
+  opacity: 0.2;
+}
+
+.arc {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-dasharray: 42 100;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
