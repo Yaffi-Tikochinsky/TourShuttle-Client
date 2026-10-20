@@ -7,28 +7,35 @@
 }
 
 .mark {
-  width: 2.6rem;
-  height: 2.6rem;
-}
-
-.sun {
-  fill: var(--gold-500);
-  opacity: 0.85;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .arch,
+.inner,
 .road {
   fill: none;
-  stroke-width: 4;
   stroke-linecap: round;
 }
 
 .arch {
-  stroke: var(--color-heading);
+  stroke: var(--art-line);
+  stroke-width: 3;
+}
+
+.inner {
+  stroke: var(--art-line);
+  stroke-width: 1.5;
+  opacity: 0.45;
 }
 
 .road {
-  stroke: var(--color-primary);
+  stroke: var(--art-olive);
+  stroke-width: 3;
+}
+
+.leaf {
+  fill: var(--art-olive);
 }
 
 .text {
@@ -38,9 +45,9 @@
 }
 
 .name {
-  font-family: var(--font-display);
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--color-heading);
 }
 

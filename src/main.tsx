@@ -1,12 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-// Fonts are bundled with the app (no request to Google at runtime). Each file includes the Hebrew subset.
-import '@fontsource/frank-ruhl-libre/500.css'
-import '@fontsource/frank-ruhl-libre/700.css'
-import '@fontsource/assistant/400.css'
-import '@fontsource/assistant/600.css'
-import '@fontsource/assistant/700.css'
+// Heebo as a variable font: one bundled file covers every weight (300 for headings, 400-700 for text),
+// including the Hebrew subset. No request to Google at runtime.
+import '@fontsource-variable/heebo'
 
 import '@/styles/tokens.css'
 import '@/styles/global.css'

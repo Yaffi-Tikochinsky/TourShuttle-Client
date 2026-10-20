@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { LostPath } from '@/components/art/Ornaments'
 import styles from './StatusPage.module.css'
 
 interface StatusPageProps {
@@ -8,10 +9,11 @@ interface StatusPageProps {
   actions?: ReactNode
 }
 
-/** The shared look of the 404, 403 and error pages. */
+/** The shared look of the 404, 403 and error pages: a path that fades into the hills. */
 export function StatusPage({ code, title, description, actions }: StatusPageProps) {
   return (
     <section className={`container ${styles.page}`}>
+      <LostPath className={styles.art} />
       <p className={styles.code} aria-hidden="true">
         {code}
       </p>

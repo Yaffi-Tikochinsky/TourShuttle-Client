@@ -1,0 +1,68 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.label {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--color-heading);
+}
+
+.control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: var(--space-2) var(--space-3);
+  padding-inline-end: 2.4rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  appearance: none;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast),
+    box-shadow var(--duration-fast);
+}
+
+.select:hover {
+  border-color: var(--color-primary);
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.withIcon .select {
+  padding-inline-start: 2.4rem;
+}
+
+.icon {
+  position: absolute;
+  inset-inline-start: var(--space-3);
+  display: grid;
+  color: var(--color-primary);
+  pointer-events: none;
+}
+
+.icon svg,
+.chevron {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.chevron {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}

@@ -17,8 +17,11 @@ interface NavItem {
   roles?: UserRole[]
 }
 
-// Links to pages that exist so far. Later stages add tours, bookings, the driver area and admin.
-const navItems: NavItem[] = [{ to: '/', label: 'דף הבית' }]
+// Links to pages that exist so far. Later stages add bookings, the driver area and admin.
+const navItems: NavItem[] = [
+  { to: '/', label: 'דף הבית' },
+  { to: '/tours', label: 'הסעות' },
+]
 
 export function Header() {
   const { user, hasRole, logout } = useAuth()

@@ -1,0 +1,173 @@
+import type { ReactNode } from 'react'
+import { Link, useLocation, useParams } from 'react-router'
+import { ArrowRight, CalendarDays, Clock, LogIn, Timer, UserRound } from 'lucide-react'
+import type { TourDetails } from '@/api/types'
+import { Blob } from '@/components/art/Blob'
+import { LostPath } from '@/components/art/Ornaments'
+import { SiteIllustration } from '@/components/art/SiteIllustration'
+import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
+import { Alert, Button, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
+import { useAuth } from '@/features/auth/useAuth'
+import type { LoginRedirectState } from '@/features/auth/RouteGuards'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { toApiError } from '@/lib/errors'
+import { formatDay, formatPrice, formatTime } from '@/lib/format'
+import { siteKindFor } from '@/lib/sites'
+import { RouteTimeline } from '../components/RouteTimeline'
+import { DepartureCountdown, SeatsMeter, StatusBadge } from '../components/TourBits'
+import { useTour } from '../hooks/useTourData'
+import styles from './TourDetailsPage.module.css'
+
+export default function TourDetailsPage() {
+  const id = Number(useParams().id)
+  const { data: tour, isPending, error } = useTour(id)
+  useDocumentTitle(tour ? `הסעה אל ${tour.destinationName}` : 'פרטי הסעה')
+
+  if (error) {
+    const apiError = toApiError(error)
+    return apiError.status === 404 ? <TourNotFound /> : <div className="container"><ApiErrorAlert error={apiError} /></div>
+  }
+
+  if (isPending || !tour) return <TourDetailsSkeleton />
+
+  return (
+    <article className={styles.page}>
+      <header className={styles.hero}>
+        <Blob shape={0} tone={0} style={{ top: -160, insetInlineStart: -160, width: 480 }} />
+        <div className={`container ${styles.heroInner}`}>
+          <div className={styles.heroText}>
+            <Link to="/tours" className={styles.back}>
+              <ArrowRight aria-hidden="true" />
+              לכל ההסעות
+            </Link>
+            <div className={styles.titleRow}>
+              <h1 className={styles.title}>{tour.destinationName}</h1>
+              <StatusBadge status={tour.displayStatus} availableSeats={tour.availableSeats} />
+            </div>
+            <p className={styles.subtitle}>
+              {tour.city} · {formatDay(tour.departureAt)}
+            </p>
+            {tour.destinationDescription && <p className={styles.description}>{tour.destinationDescription}</p>}
+            {tour.displayStatus === 'Scheduled' && <DepartureCountdown departureAt={tour.departureAt} className={styles.countdown} />}
+          </div>
+          <div className={styles.heroArt}>
+            <SiteIllustration kind={siteKindFor(tour.destinationName, tour.city)} />
+          </div>
+        </div>
+      </header>
+
+      <div className={`container ${styles.body}`}>
+        <div className={styles.main}>
+          <section aria-labelledby="facts-title">
+            <h2 id="facts-title" className={styles.sectionTitle}>
+              פרטי ההסעה
+            </h2>
+            <dl className={styles.facts}>
+              <Fact icon={<CalendarDays />} label="תאריך" value={formatDay(tour.departureAt)} />
+              <Fact icon={<Clock />} label="יציאה מהתחנה הראשונה" value={formatTime(tour.departureAt)} />
+              <Fact icon={<Timer />} label="חזרה משוערת" value={formatTime(tour.returnAt)} />
+              {tour.driverName && <Fact icon={<UserRound />} label="נהג" value={tour.driverName} />}
+            </dl>
+          </section>
+
+          <section aria-labelledby="route-title">
+            <h2 id="route-title" className={styles.sectionTitle}>
+              המסלול ותחנות האיסוף
+            </h2>
+            <Alert tone="info" className={styles.notice}>
+              זמני האיסוף משוערים בלבד, ומחושבים לפי שעת היציאה והעומס הצפוי בכבישים. מומלץ להגיע לתחנה כמה דקות
+              מוקדם יותר.
+              {tour.customMinutesBetweenPickupPoints !== null && (
+                <> בהסעה זו נקבע מרווח של {tour.customMinutesBetweenPickupPoints} דקות בין תחנה לתחנה.</>
+              )}
+            </Alert>
+            <Card padding="lg">
+              <RouteTimeline stops={tour.pickupPoints} destinationName={tour.destinationName} destinationCity={tour.city} />
+            </Card>
+          </section>
+        </div>
+
+        <aside className={styles.aside} aria-label="הזמנה">
+          <BookingSummary tour={tour} />
+        </aside>
+      </div>
+    </article>
+  )
+}
+
+function Fact({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+  return (
+    <div className={styles.fact}>
+      <span className={styles.factIcon} aria-hidden="true">
+        {icon}
+      </span>
+      <dt className={styles.factLabel}>{label}</dt>
+      <dd className={styles.factValue}>{value}</dd>
+    </div>
+  )
+}
+
+/** Price, seats, and the next step for whoever is looking: a guest signs in, a customer books (stage 9c). */
+function BookingSummary({ tour }: { tour: TourDetails }) {
+  const { user } = useAuth()
+  const location = useLocation()
+  const open = tour.displayStatus === 'Scheduled' && tour.availableSeats > 0
+
+  return (
+    <Card padding="lg" className={styles.summary}>
+      <p className={styles.price}>
+        {formatPrice(tour.price)}
+        <span className={styles.perSeat}> למקום</span>
+      </p>
+      <SeatsMeter capacity={tour.capacity} availableSeats={tour.availableSeats} />
+      <p className={styles.limit}>עד {tour.maxSeatsPerBooking} מקומות בהזמנה אחת</p>
+
+      {!open ? (
+        <Alert tone="warning">{tour.availableSeats === 0 ? 'כל המקומות בהסעה הזו נתפסו.' : 'ההסעה הזו כבר לא פתוחה להזמנה.'}</Alert>
+      ) : !user ? (
+        <ButtonLink
+          to="/login"
+          state={{ from: location.pathname } satisfies LoginRedirectState}
+          size="lg"
+          fullWidth
+          icon={<LogIn />}
+        >
+          התחברו כדי להזמין
+        </ButtonLink>
+      ) : user.role === 'Customer' ? (
+        <Button size="lg" fullWidth disabled title="ההזמנה המקוונת תיפתח בשלב הבא">
+          הזמנת מקומות
+        </Button>
+      ) : (
+        <Alert tone="info" title="ההזמנה מיועדת ללקוחות">
+          חשבון {user.role === 'Admin' ? 'מנהל' : 'נהג'} אינו מזמין מקומות.
+        </Alert>
+      )}
+    </Card>
+  )
+}
+
+function TourDetailsSkeleton() {
+  return (
+    <div className="container" style={{ paddingBlock: 'var(--space-7)' }} aria-busy="true" aria-label="טוען את פרטי ההסעה">
+      <Skeleton width="40%" height="2.5rem" />
+      <div style={{ height: 'var(--space-4)' }} />
+      <Skeleton width="25%" />
+      <div style={{ height: 'var(--space-6)' }} />
+      <Skeleton height="16rem" radius="22px" />
+    </div>
+  )
+}
+
+function TourNotFound() {
+  return (
+    <div className="container">
+      <EmptyState
+        visual={<LostPath className={styles.lostArt} />}
+        title="ההסעה הזו לא נמצאה"
+        description="ייתכן שהקישור שגוי, או שההסעה הוסרה מלוח ההסעות."
+        action={<ButtonLink to="/tours">לכל ההסעות</ButtonLink>}
+      />
+    </div>
+  )
+}

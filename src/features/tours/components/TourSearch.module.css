@@ -1,0 +1,29 @@
+.search {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+  gap: var(--space-3);
+}
+
+.hero {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-md);
+}
+
+.bar {
+  align-items: center;
+}
+
+.submit {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .search {
+    grid-template-columns: 1fr;
+  }
+}

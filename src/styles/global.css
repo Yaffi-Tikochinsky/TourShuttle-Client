@@ -14,7 +14,7 @@ html {
 body {
   margin: 0;
   min-height: 100dvh;
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   color: var(--color-text);
@@ -29,9 +29,16 @@ h3,
 h4 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--leading-tight);
   color: var(--color-heading);
+}
+
+/* Large headings are light and airy; their emphasis comes from size, not weight. */
+h1,
+h2 {
+  font-weight: var(--weight-display);
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -65,8 +72,37 @@ textarea {
 }
 
 ::selection {
-  background: var(--sky-200);
+  background: var(--sage-200);
   color: var(--dusk-900);
+}
+
+/* A section heading with its small caption under it. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Content revealed softly as it scrolls into view (see components/motion/Reveal). */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-visible='true'] {
+  opacity: 1;
+  transform: none;
 }
 
 /* Read by screen readers, invisible on screen. */

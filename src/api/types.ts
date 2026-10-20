@@ -44,6 +44,7 @@ export interface PickupPoint {
   id: number
   name: string
   address: string
+  city: string
 }
 
 // ---------- Tours ----------
@@ -66,6 +67,8 @@ export interface TourSummary {
   status: TourStatus
   displayStatus: TourDisplayStatus
   driverName: string | null
+  /** The cities the route passes through, in route order, each once. */
+  cities: string[]
 }
 
 export interface TourStop {
@@ -89,6 +92,8 @@ export interface TourDetails extends TourSummary {
 
 export interface TourQuery {
   destinationId?: number
+  /** Tours with at least one stop in this city. */
+  city?: string
   from?: string
   to?: string
   sortBy?: TourSortBy

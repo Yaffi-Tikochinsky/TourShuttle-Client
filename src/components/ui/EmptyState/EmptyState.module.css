@@ -12,7 +12,8 @@
   margin-bottom: var(--space-2);
 }
 
-.visual svg {
+/* Sizes icons only (lucide marks its SVGs with the "lucide" class); illustrations keep their own size. */
+.visual > :global(svg.lucide) {
   width: 3.5rem;
   height: 3.5rem;
 }

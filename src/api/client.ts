@@ -8,7 +8,9 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 interface RequestOptions {
   body?: unknown
-  query?: Record<string, string | number | boolean | undefined | null>
+  /** Any object of simple values; empty ones are left out of the URL. (`object`, because an interface such as
+   *  TourQuery has no index signature and so is not assignable to a Record type.) */
+  query?: object
   /** Lets a component cancel the request when it unmounts or the input changes. */
   signal?: AbortSignal
 }
@@ -51,7 +53,7 @@ async function request<T>(method: HttpMethod, path: string, options: RequestOpti
 function toQueryString(query: RequestOptions['query']): string {
   if (!query) return ''
   const params = new URLSearchParams()
-  for (const [key, value] of Object.entries(query)) {
+  for (const [key, value] of Object.entries(query) as Array<[string, unknown]>) {
     if (value !== undefined && value !== null && value !== '') params.set(key, String(value))
   }
   const text = params.toString()

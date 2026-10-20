@@ -1,0 +1,108 @@
+/* ---------- Countdown ---------- */
+.countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.countdown svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* ---------- Seats ---------- */
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-muted);
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-success);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.meter[data-level='low'] .fill {
+  background: var(--art-accent);
+}
+
+.meter[data-level='full'] .fill {
+  background: var(--color-danger);
+}
+
+.meterText {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.meter[data-level='low'] .meterText {
+  color: var(--color-warning);
+}
+
+.meter[data-level='full'] .meterText {
+  color: var(--color-danger);
+}
+
+.meterOf {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Route line ---------- */
+.route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-text);
+}
+
+/* The dashed connector before every stop but the first */
+.stop + .stop::before {
+  content: '';
+  width: 1.4rem;
+  margin-inline: 0.4rem;
+  border-top: 1.5px dashed var(--art-path);
+}
+
+.dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--art-olive);
+  flex-shrink: 0;
+}
+
+.end {
+  font-weight: 600;
+}
+
+.end .dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--art-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--art-accent) 25%, transparent);
+}

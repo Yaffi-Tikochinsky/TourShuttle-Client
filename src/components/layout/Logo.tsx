@@ -1,13 +1,14 @@
 import { Link } from 'react-router'
 import styles from './Logo.module.css'
 
-/** An arch (a gate of the Old City) under a rising sun, over a road: the brand mark, drawn as inline SVG. */
+/** A gate of the Old City in fine line over a road, with an olive leaf: the brand mark, drawn as inline SVG. */
 export function Logo() {
   return (
     <Link to="/" className={styles.logo} aria-label="שבילי קדם, לדף הבית">
       <svg viewBox="0 0 48 48" className={styles.mark} aria-hidden="true">
-        <circle cx="24" cy="20" r="7" className={styles.sun} />
-        <path d="M10 40V26a14 14 0 0 1 28 0v14" className={styles.arch} />
+        <path d="M11 40V24a13 13 0 0 1 26 0v16" className={styles.arch} />
+        <path d="M17 40V25a7 7 0 0 1 14 0v15" className={styles.inner} />
+        <path d="M24 9c-4 3-5 7-3 11 3-2 5-6 3-11z" className={styles.leaf} />
         <path d="M6 40h36" className={styles.road} />
       </svg>
       <span className={styles.text}>

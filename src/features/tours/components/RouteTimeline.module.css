@@ -1,0 +1,87 @@
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25rem 1fr auto;
+  align-items: start;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  animation: arrive var(--duration-slow) var(--ease-out) both;
+}
+
+/* The dashed path to the next stop */
+.stop:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(0.625rem - 1px);
+  top: 1.15rem;
+  bottom: 0.15rem;
+  border-inline-start: 2px dashed var(--art-path);
+}
+
+.marker {
+  position: relative;
+  z-index: 1;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  border: 2px solid var(--art-olive);
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+
+.place {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.address {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.time {
+  padding: 0.15rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.selected .marker {
+  background: var(--art-olive);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+
+.selected .name {
+  color: var(--color-primary);
+}
+
+.destination .marker {
+  border-color: var(--art-accent);
+  background: var(--art-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--art-accent) 22%, transparent);
+}
+
+.destination {
+  padding-bottom: 0;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

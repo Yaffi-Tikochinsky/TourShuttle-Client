@@ -14,6 +14,8 @@ import { RouteErrorPage } from '@/features/system/RouteErrorPage'
 const HomePage = lazy(() => import('@/features/home/HomePage'))
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'))
 const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'))
+const ToursPage = lazy(() => import('@/features/tours/pages/ToursPage'))
+const TourDetailsPage = lazy(() => import('@/features/tours/pages/TourDetailsPage'))
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +39,9 @@ export const router = createBrowserRouter([
           </GuestOnly>
         ),
       },
-      // Stages 9b-9f add: tours, tours/:id, my-bookings (Customer), driver (Driver), admin (Admin).
+      { path: 'tours', element: <ToursPage /> },
+      { path: 'tours/:id', element: <TourDetailsPage /> },
+      // Stages 9c-9f add: my-bookings (Customer), driver (Driver), admin (Admin).
       { path: '*', element: <NotFoundPage /> },
     ],
   },
