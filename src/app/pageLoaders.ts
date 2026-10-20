@@ -12,6 +12,10 @@ export const pageLoaders = {
   myBookings: () => import('@/features/bookings/pages/MyBookingsPage'),
   driverTours: () => import('@/features/driver/pages/DriverToursPage'),
   passengers: () => import('@/features/driver/pages/PassengersPage'),
+  adminTours: () => import('@/features/admin/pages/AdminToursPage'),
+  tourForm: () => import('@/features/admin/pages/TourFormPage'),
+  adminDestinations: () => import('@/features/admin/pages/DestinationsPage'),
+  adminPickupPoints: () => import('@/features/admin/pages/PickupPointsPage'),
 }
 
 /**

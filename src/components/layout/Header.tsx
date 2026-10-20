@@ -15,14 +15,17 @@ interface NavItem {
   label: string
   /** Shown only to these roles; omit for everyone. */
   roles?: UserRole[]
+  /** Active only on this exact path (default). False: also on the pages under it, like /admin/tours. */
+  end?: boolean
 }
 
-// Links to pages that exist so far. Stage 9f adds admin.
+// The site's sections; each role sees its own area.
 const navItems: NavItem[] = [
   { to: '/', label: 'דף הבית' },
   { to: '/tours', label: 'הסעות' },
   { to: '/my-bookings', label: 'ההזמנות שלי', roles: ['Customer'] },
   { to: '/driver', label: 'ההסעות שלי', roles: ['Driver'] },
+  { to: '/admin', label: 'ניהול', roles: ['Admin'], end: false },
 ]
 
 export function Header() {
@@ -61,7 +64,7 @@ export function Header() {
             {visibleItems.map((item) => (
               <li key={item.to}>
                 {/* NavLink knows whether its route is the current one and styles itself as active. */}
-                <NavLink to={item.to} end viewTransition className={({ isActive }) => cx(styles.navLink, isActive && styles.active)}>
+                <NavLink to={item.to} end={item.end ?? true} viewTransition className={({ isActive }) => cx(styles.navLink, isActive && styles.active)}>
                   {item.label}
                 </NavLink>
               </li>

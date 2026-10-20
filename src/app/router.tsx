@@ -1,6 +1,7 @@
 import { lazy } from 'react'
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 import { AppLayout } from '@/components/layout/AppLayout'
+import { AdminLayout } from '@/features/admin/components/AdminLayout'
 import { GuestOnly, RequireRole } from '@/features/auth/RouteGuards'
 import NotFoundPage from '@/features/system/NotFoundPage'
 import { RouteErrorPage } from '@/features/system/RouteErrorPage'
@@ -21,6 +22,10 @@ const TourDetailsPage = lazy(pageLoaders.tourDetails)
 const MyBookingsPage = lazy(pageLoaders.myBookings)
 const DriverToursPage = lazy(pageLoaders.driverTours)
 const PassengersPage = lazy(pageLoaders.passengers)
+const AdminToursPage = lazy(pageLoaders.adminTours)
+const TourFormPage = lazy(pageLoaders.tourForm)
+const DestinationsPage = lazy(pageLoaders.adminDestinations)
+const PickupPointsPage = lazy(pageLoaders.adminPickupPoints)
 
 export const router = createBrowserRouter([
   {
@@ -68,7 +73,25 @@ export const router = createBrowserRouter([
           </RequireRole>
         ),
       },
-      // Stage 9f adds: admin (Admin).
+      {
+        // Nested routes: the guard, then the admin frame, then the section. Each level renders the next in <Outlet />.
+        path: 'admin',
+        element: <RequireRole roles={['Admin']} />,
+        children: [
+          {
+            element: <AdminLayout />,
+            children: [
+              { index: true, element: <Navigate to="tours" replace /> },
+              { path: 'tours', element: <AdminToursPage /> },
+              { path: 'destinations', element: <DestinationsPage /> },
+              { path: 'pickup-points', element: <PickupPointsPage /> },
+            ],
+          },
+          // The tour form is a full page of its own, outside the tabs frame.
+          { path: 'tours/new', element: <TourFormPage /> },
+          { path: 'tours/:id/edit', element: <TourFormPage /> },
+        ],
+      },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
