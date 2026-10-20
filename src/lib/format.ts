@@ -8,6 +8,7 @@ const TIME_ZONE = 'Asia/Jerusalem'
 const dayFormat = new Intl.DateTimeFormat('he-IL', { timeZone: TIME_ZONE, weekday: 'long', day: 'numeric', month: 'numeric' })
 const shortDayFormat = new Intl.DateTimeFormat('he-IL', { timeZone: TIME_ZONE, weekday: 'short', day: 'numeric', month: 'numeric' })
 const timeFormat = new Intl.DateTimeFormat('he-IL', { timeZone: TIME_ZONE, hour: '2-digit', minute: '2-digit', hour12: false })
+const hourFormat = new Intl.DateTimeFormat('en-GB', { timeZone: TIME_ZONE, hour: 'numeric', hourCycle: 'h23' })
 const dateKeyFormat = new Intl.DateTimeFormat('en-CA', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit' })
 const money = new Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS', maximumFractionDigits: 2, minimumFractionDigits: 0 })
 
@@ -68,4 +69,13 @@ export function formatRelativeDeparture(iso: string, now: Date = new Date()): st
 /** "בני ברק · רמת גן · פתח תקווה" */
 export function formatCities(cities: string[]): string {
   return cities.join(' · ')
+}
+
+/** A greeting for the hour in Israel: "בוקר טוב" from 5:00, "צהריים טובים" from 12:00, "ערב טוב" from 17:00, "לילה טוב" from 21:00. */
+export function greetingFor(now: Date = new Date()): string {
+  const hour = Number(hourFormat.format(now))
+  if (hour >= 5 && hour < 12) return 'בוקר טוב'
+  if (hour >= 12 && hour < 17) return 'צהריים טובים'
+  if (hour >= 17 && hour < 21) return 'ערב טוב'
+  return 'לילה טוב'
 }

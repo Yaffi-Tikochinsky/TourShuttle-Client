@@ -225,3 +225,10 @@
     flex-direction: column;
   }
 }
+
+/* Printed pages (such as the passenger list) are just the content. */
+@media print {
+  .header {
+    display: none;
+  }
+}

@@ -1,0 +1,89 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 260px);
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-surface-tint), var(--color-surface) 65%);
+  animation: rise 1100ms var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+
+.title {
+  font-size: var(--text-3xl);
+}
+
+.when {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.when strong {
+  color: var(--color-primary);
+}
+
+.countdown {
+  font-weight: 600;
+}
+
+.passengers {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.passengers svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--color-primary);
+}
+
+.action {
+  margin-top: var(--space-2);
+}
+
+.actionText {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.actionText svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 600ms var(--ease-out);
+}
+
+.action:hover .actionText svg {
+  transform: translateX(-4px);
+}
+
+.art {
+  align-self: end;
+  padding: var(--space-5) var(--space-5) 0 0;
+}
+
+@media (max-width: 760px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .art {
+    display: none;
+  }
+}

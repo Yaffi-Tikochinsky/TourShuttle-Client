@@ -1,0 +1,76 @@
+.page {
+  overflow-x: clip;
+  padding-bottom: var(--space-8);
+}
+
+.header {
+  position: relative;
+  isolation: isolate;
+  padding-block: var(--space-7) var(--space-6);
+  background: linear-gradient(180deg, var(--color-surface-tint), transparent);
+}
+
+.header > :global(.container) {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: var(--text-3xl);
+}
+
+.lead {
+  margin-top: var(--space-2);
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.day {
+  animation: day-in 1100ms var(--ease-out) both;
+}
+
+@keyframes day-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.dayTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xl);
+}
+
+.dayDate {
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.emptyArt {
+  width: 220px;
+}

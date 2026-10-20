@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatCities, formatRelativeDeparture, formatSeats, formatTime } from './format'
+import { formatCities, formatRelativeDeparture, formatSeats, formatTime, greetingFor } from './format'
 
 describe('formatTime', () => {
   it('shows Israel time, in winter and in summer', () => {
@@ -40,5 +40,15 @@ describe('formatSeats and formatCities', () => {
 
   it('joins route cities with a middle dot', () => {
     expect(formatCities(['בני ברק', 'רמת גן'])).toBe('בני ברק · רמת גן')
+  })
+})
+
+describe('greetingFor', () => {
+  it('greets by the hour in Israel, not the computer clock', () => {
+    // 05:30 UTC in October is 08:30 in Israel (UTC+3).
+    expect(greetingFor(new Date('2026-10-21T05:30:00Z'))).toBe('בוקר טוב')
+    expect(greetingFor(new Date('2026-10-21T10:00:00Z'))).toBe('צהריים טובים')
+    expect(greetingFor(new Date('2026-10-21T15:00:00Z'))).toBe('ערב טוב')
+    expect(greetingFor(new Date('2026-10-21T22:00:00Z'))).toBe('לילה טוב')
   })
 })

@@ -17,6 +17,8 @@ const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'))
 const ToursPage = lazy(() => import('@/features/tours/pages/ToursPage'))
 const TourDetailsPage = lazy(() => import('@/features/tours/pages/TourDetailsPage'))
 const MyBookingsPage = lazy(() => import('@/features/bookings/pages/MyBookingsPage'))
+const DriverToursPage = lazy(() => import('@/features/driver/pages/DriverToursPage'))
+const PassengersPage = lazy(() => import('@/features/driver/pages/PassengersPage'))
 
 export const router = createBrowserRouter([
   {
@@ -50,7 +52,21 @@ export const router = createBrowserRouter([
           </RequireRole>
         ),
       },
-      // Stages 9d-9f add: driver (Driver), admin (Admin).
+      {
+        path: 'driver',
+        element: <RequireRole roles={['Driver']} />,
+        children: [{ index: true, element: <DriverToursPage /> }],
+      },
+      {
+        // The passenger list: the tour's driver, or an admin (the server checks which driver).
+        path: 'driver/tours/:id',
+        element: (
+          <RequireRole roles={['Driver', 'Admin']}>
+            <PassengersPage />
+          </RequireRole>
+        ),
+      },
+      // Stage 9f adds: admin (Admin).
       { path: '*', element: <NotFoundPage /> },
     ],
   },
