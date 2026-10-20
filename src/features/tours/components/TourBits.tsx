@@ -1,6 +1,6 @@
 import { Clock } from 'lucide-react'
 import type { TourDisplayStatus } from '@/api/types'
-import { Badge } from '@/components/ui'
+import { Alert, Badge } from '@/components/ui'
 import { useInView } from '@/hooks/useInView'
 import { useNow } from '@/hooks/useNow'
 import { cx } from '@/lib/cx'
@@ -20,6 +20,11 @@ export function StatusBadge({ status, availableSeats }: { status: TourDisplaySta
   if (status === 'Scheduled' && availableSeats === 0) return <Badge tone="danger">מלאה</Badge>
   const tone = status === 'Cancelled' ? 'danger' : status === 'Scheduled' ? 'success' : status === 'InProgress' ? 'info' : 'neutral'
   return <Badge tone={tone}>{statusText[status]}</Badge>
+}
+
+/** Why a tour takes no more bookings: it is full, or it left or was cancelled. */
+export function TourClosedNotice({ availableSeats }: { availableSeats: number }) {
+  return <Alert tone="warning">{availableSeats === 0 ? 'כל המקומות בהסעה הזו נתפסו.' : 'ההסעה הזו כבר לא פתוחה להזמנה.'}</Alert>
 }
 
 /** "בעוד 3 ימים", refreshed every minute while on screen. */

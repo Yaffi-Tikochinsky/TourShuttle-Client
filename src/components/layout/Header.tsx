@@ -17,10 +17,11 @@ interface NavItem {
   roles?: UserRole[]
 }
 
-// Links to pages that exist so far. Later stages add bookings, the driver area and admin.
+// Links to pages that exist so far. Later stages add the driver area and admin.
 const navItems: NavItem[] = [
   { to: '/', label: 'דף הבית' },
   { to: '/tours', label: 'הסעות' },
+  { to: '/my-bookings', label: 'ההזמנות שלי', roles: ['Customer'] },
 ]
 
 export function Header() {

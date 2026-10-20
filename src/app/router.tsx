@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
 import { AppLayout } from '@/components/layout/AppLayout'
-import { GuestOnly } from '@/features/auth/RouteGuards'
+import { GuestOnly, RequireRole } from '@/features/auth/RouteGuards'
 import NotFoundPage from '@/features/system/NotFoundPage'
 import { RouteErrorPage } from '@/features/system/RouteErrorPage'
 
@@ -16,6 +16,7 @@ const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'))
 const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'))
 const ToursPage = lazy(() => import('@/features/tours/pages/ToursPage'))
 const TourDetailsPage = lazy(() => import('@/features/tours/pages/TourDetailsPage'))
+const MyBookingsPage = lazy(() => import('@/features/bookings/pages/MyBookingsPage'))
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,15 @@ export const router = createBrowserRouter([
       },
       { path: 'tours', element: <ToursPage /> },
       { path: 'tours/:id', element: <TourDetailsPage /> },
-      // Stages 9c-9f add: my-bookings (Customer), driver (Driver), admin (Admin).
+      {
+        path: 'my-bookings',
+        element: (
+          <RequireRole roles={['Customer']}>
+            <MyBookingsPage />
+          </RequireRole>
+        ),
+      },
+      // Stages 9d-9f add: driver (Driver), admin (Admin).
       { path: '*', element: <NotFoundPage /> },
     ],
   },

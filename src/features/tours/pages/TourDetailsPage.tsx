@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router'
 import { ArrowRight, CalendarDays, Clock, LogIn, Timer, UserRound } from 'lucide-react'
 import type { TourDetails } from '@/api/types'
@@ -6,7 +6,8 @@ import { Blob } from '@/components/art/Blob'
 import { LostPath } from '@/components/art/Ornaments'
 import { SiteIllustration } from '@/components/art/SiteIllustration'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
-import { Alert, Button, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
+import { Alert, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
+import { BookingPanel } from '@/features/bookings/components/BookingPanel'
 import { useAuth } from '@/features/auth/useAuth'
 import type { LoginRedirectState } from '@/features/auth/RouteGuards'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
@@ -14,13 +15,15 @@ import { toApiError } from '@/lib/errors'
 import { formatDay, formatPrice, formatTime } from '@/lib/format'
 import { siteKindFor } from '@/lib/sites'
 import { RouteTimeline } from '../components/RouteTimeline'
-import { DepartureCountdown, SeatsMeter, StatusBadge } from '../components/TourBits'
+import { DepartureCountdown, SeatsMeter, StatusBadge, TourClosedNotice } from '../components/TourBits'
 import { useTour } from '../hooks/useTourData'
 import styles from './TourDetailsPage.module.css'
 
 export default function TourDetailsPage() {
   const id = Number(useParams().id)
   const { data: tour, isPending, error } = useTour(id)
+  // The stop chosen in the booking panel, lifted up here so the route on the left can highlight it too.
+  const [selectedStopId, setSelectedStopId] = useState<number>()
   useDocumentTitle(tour ? `הסעה אל ${tour.destinationName}` : 'פרטי הסעה')
 
   if (error) {
@@ -82,13 +85,18 @@ export default function TourDetailsPage() {
               )}
             </Alert>
             <Card padding="lg">
-              <RouteTimeline stops={tour.pickupPoints} destinationName={tour.destinationName} destinationCity={tour.city} />
+              <RouteTimeline
+                stops={tour.pickupPoints}
+                destinationName={tour.destinationName}
+                destinationCity={tour.city}
+                selectedStopId={selectedStopId}
+              />
             </Card>
           </section>
         </div>
 
         <aside className={styles.aside} aria-label="הזמנה">
-          <BookingSummary tour={tour} />
+          <BookingSummary tour={tour} onStopSelected={setSelectedStopId} />
         </aside>
       </div>
     </article>
@@ -107,8 +115,8 @@ function Fact({ icon, label, value }: { icon: ReactNode; label: string; value: s
   )
 }
 
-/** Price, seats, and the next step for whoever is looking: a guest signs in, a customer books (stage 9c). */
-function BookingSummary({ tour }: { tour: TourDetails }) {
+/** Price, seats, and the next step for whoever is looking: a guest signs in, a customer books. */
+function BookingSummary({ tour, onStopSelected }: { tour: TourDetails; onStopSelected: (pickupPointId: number) => void }) {
   const { user } = useAuth()
   const location = useLocation()
   const open = tour.displayStatus === 'Scheduled' && tour.availableSeats > 0
@@ -122,8 +130,11 @@ function BookingSummary({ tour }: { tour: TourDetails }) {
       <SeatsMeter capacity={tour.capacity} availableSeats={tour.availableSeats} />
       <p className={styles.limit}>עד {tour.maxSeatsPerBooking} מקומות בהזמנה אחת</p>
 
-      {!open ? (
-        <Alert tone="warning">{tour.availableSeats === 0 ? 'כל המקומות בהסעה הזו נתפסו.' : 'ההסעה הזו כבר לא פתוחה להזמנה.'}</Alert>
+      {/* A customer always gets the panel: it also shows a booking just made, or one made earlier, on a full tour. */}
+      {user?.role === 'Customer' ? (
+        <BookingPanel tour={tour} onStopSelected={onStopSelected} />
+      ) : !open ? (
+        <TourClosedNotice availableSeats={tour.availableSeats} />
       ) : !user ? (
         <ButtonLink
           to="/login"
@@ -134,10 +145,6 @@ function BookingSummary({ tour }: { tour: TourDetails }) {
         >
           התחברו כדי להזמין
         </ButtonLink>
-      ) : user.role === 'Customer' ? (
-        <Button size="lg" fullWidth disabled title="ההזמנה המקוונת תיפתח בשלב הבא">
-          הזמנת מקומות
-        </Button>
       ) : (
         <Alert tone="info" title="ההזמנה מיועדת ללקוחות">
           חשבון {user.role === 'Admin' ? 'מנהל' : 'נהג'} אינו מזמין מקומות.

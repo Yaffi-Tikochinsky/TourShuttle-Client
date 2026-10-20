@@ -1,0 +1,173 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  animation: step-in 900ms var(--ease-out);
+}
+
+/* Each step slides in from the reading direction's "next" side (left, in RTL). */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+
+.stepTitle {
+  font-size: var(--text-lg);
+}
+
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.total strong {
+  font-size: var(--text-xl);
+  color: var(--color-heading);
+}
+
+/* A value that just changed rises in softly (the element gets a new key on each change). */
+.changed {
+  display: inline-block;
+  animation: value-in 620ms var(--ease-out);
+}
+
+@keyframes value-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.next {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.next svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 600ms var(--ease-out);
+}
+
+.panel button:hover .next svg {
+  transform: translateX(-4px);
+}
+
+.hint {
+  margin-top: calc(-1 * var(--space-2));
+  font-size: var(--text-xs);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Review ---------- */
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-tint);
+}
+
+.review > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.review dt {
+  color: var(--color-text-muted);
+}
+
+.review dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.review .totalRow {
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.review .totalRow dd {
+  font-size: var(--text-lg);
+}
+
+/* ---------- Done ---------- */
+.done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  animation: step-in 900ms var(--ease-out);
+}
+
+.doneTitle {
+  font-size: var(--text-xl);
+}
+
+.doneText {
+  color: var(--color-text-muted);
+}
+
+.mark {
+  width: 5rem;
+  height: 5rem;
+  overflow: visible;
+}
+
+.markGlow {
+  fill: var(--color-primary-soft);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: glow 7s var(--ease-soft) 1.4s infinite alternate;
+}
+
+/* The drawing uses a dash once (pathLength 1, offset 1 -> 0): it draws itself and then stays still. */
+.markCircle,
+.markCheck {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.markCircle {
+  animation: draw 1300ms var(--ease-out) forwards;
+}
+
+.markCheck {
+  animation: draw 900ms var(--ease-out) 800ms forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes glow {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.18);
+    opacity: 0.45;
+  }
+}

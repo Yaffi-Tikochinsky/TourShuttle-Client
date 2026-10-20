@@ -1,0 +1,124 @@
+.picker {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.option {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+  animation: option-in 900ms var(--ease-out) both;
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform 600ms var(--ease-out);
+}
+
+@keyframes option-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.option:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+}
+
+.option.checked {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+/* The real input stays focusable and clickable over the whole card, but invisible. */
+.radio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option:has(.radio:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.mark {
+  position: relative;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+  transition: border-color var(--duration-normal) var(--ease-out);
+}
+
+.mark::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transform: scale(0);
+  transition: transform 520ms var(--ease-out);
+}
+
+.checked .mark {
+  border-color: var(--color-primary);
+}
+
+.checked .mark::after {
+  transform: scale(1);
+}
+
+.place {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.address {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.time {
+  font-weight: 700;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.picker:disabled .option {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
