@@ -1,5 +1,5 @@
 import { http } from './client'
-import type { Destination, PickupPoint, TourDetails, TourRequest, User, UserRole } from './types'
+import type { Destination, PickupPoint, RegisterRequest, TourDetails, TourRequest, User, UserRole } from './types'
 
 /** What the admin sends for a destination or a pickup point (PUT replaces every field). */
 export interface DestinationRequest {
@@ -30,4 +30,6 @@ export const adminApi = {
   deletePickupPoint: (id: number) => http.delete(`/api/pickup-points/${id}`),
 
   users: (role?: UserRole, signal?: AbortSignal) => http.get<User[]>('/api/users', { query: { role }, signal }),
+  /** A new driver account: the same fields as registration. 409 when the email is taken. */
+  createDriver: (request: RegisterRequest) => http.post<User>('/api/users/drivers', request),
 }

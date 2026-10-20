@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router'
-import { Bus, Landmark, MapPin } from 'lucide-react'
+import { Bus, IdCard, Landmark, MapPin } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
 import { cx } from '@/lib/cx'
 import styles from './AdminLayout.module.css'
@@ -8,6 +8,7 @@ const sections = [
   { to: 'tours', label: 'הסעות', icon: <Bus aria-hidden="true" /> },
   { to: 'destinations', label: 'יעדים', icon: <Landmark aria-hidden="true" /> },
   { to: 'pickup-points', label: 'תחנות איסוף', icon: <MapPin aria-hidden="true" /> },
+  { to: 'drivers', label: 'נהגים', icon: <IdCard aria-hidden="true" /> },
 ]
 
 /**

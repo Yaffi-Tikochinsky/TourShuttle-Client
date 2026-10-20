@@ -16,6 +16,7 @@ export const pageLoaders = {
   tourForm: () => import('@/features/admin/pages/TourFormPage'),
   adminDestinations: () => import('@/features/admin/pages/DestinationsPage'),
   adminPickupPoints: () => import('@/features/admin/pages/PickupPointsPage'),
+  adminDrivers: () => import('@/features/admin/pages/DriversPage'),
 }
 
 /**

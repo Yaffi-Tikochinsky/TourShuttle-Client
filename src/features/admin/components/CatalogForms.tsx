@@ -59,6 +59,8 @@ export function DestinationForm({ initial, onSubmit, onCancel }: DestinationForm
       return { values, fieldErrors: {}, apiError: null }
     } catch (error) {
       const apiError = toApiError(error)
+      // 409 here means the name is taken (destination names are unique): said on the field itself.
+      if (apiError.status === 409) return { values, fieldErrors: { name: 'כבר יש יעד בשם הזה' }, apiError: null }
       return { values, fieldErrors: serverFieldErrors(apiError, ['name', 'city', 'description']), apiError }
     }
   }, initialState)
@@ -106,6 +108,7 @@ export function PickupPointForm({ initial, cities, onSubmit, onCancel }: PickupP
       return { values, fieldErrors: {}, apiError: null }
     } catch (error) {
       const apiError = toApiError(error)
+      if (apiError.status === 409) return { values, fieldErrors: { name: 'כבר יש תחנה בשם הזה' }, apiError: null }
       return { values, fieldErrors: serverFieldErrors(apiError, ['name', 'address', 'city']), apiError }
     }
   }, initialState)

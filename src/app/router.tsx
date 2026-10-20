@@ -26,6 +26,7 @@ const AdminToursPage = lazy(pageLoaders.adminTours)
 const TourFormPage = lazy(pageLoaders.tourForm)
 const DestinationsPage = lazy(pageLoaders.adminDestinations)
 const PickupPointsPage = lazy(pageLoaders.adminPickupPoints)
+const DriversPage = lazy(pageLoaders.adminDrivers)
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,7 @@ export const router = createBrowserRouter([
               { path: 'tours', element: <AdminToursPage /> },
               { path: 'destinations', element: <DestinationsPage /> },
               { path: 'pickup-points', element: <PickupPointsPage /> },
+              { path: 'drivers', element: <DriversPage /> },
             ],
           },
           // The tour form is a full page of its own, outside the tabs frame.
