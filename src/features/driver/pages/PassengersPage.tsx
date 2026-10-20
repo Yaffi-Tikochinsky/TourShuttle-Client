@@ -122,6 +122,7 @@ function PassengerBoard({ data, back, updatedAt }: PassengerBoardProps) {
       </section>
 
       <div className="container">
+        <h2 className="visually-hidden">תחנות האיסוף והנוסעים</h2>
         <ol className={styles.route}>
           {data.pickupPoints.map((stop, index) => (
             <StopCard key={stop.pickupPointId} stop={stop} boarded={boarded} onToggle={toggle} index={index} />

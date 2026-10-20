@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router'
 import { Menu, X } from 'lucide-react'
 import type { UserRole } from '@/api/types'
@@ -35,6 +35,20 @@ export function Header() {
   const menuOpen = openedOnPath === pathname
   const setMenuOpen = (update: (open: boolean) => boolean) => setOpenedOnPath(update(menuOpen) ? pathname : null)
 
+  // Escape closes the open menu and puts focus back on the button that opened it.
+  // An effect, because it listens to the whole document (outside React's tree) only while the menu is open.
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpenedOnPath(null)
+      menuButtonRef.current?.focus()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
   const visibleItems = navItems.filter((item) => !item.roles || hasRole(...item.roles))
 
   return (
@@ -42,7 +56,7 @@ export function Header() {
       <div className={cx('container', styles.inner)}>
         <Logo />
 
-        <nav className={cx(styles.nav, menuOpen && styles.navOpen)} aria-label="ניווט ראשי">
+        <nav id="main-nav" className={cx(styles.nav, menuOpen && styles.navOpen)} aria-label="ניווט ראשי">
           <ul className={styles.navList}>
             {visibleItems.map((item) => (
               <li key={item.to}>
@@ -74,6 +88,8 @@ export function Header() {
             className={cx(styles.iconButton, styles.menuButton)}
             aria-label={menuOpen ? 'סגירת התפריט' : 'פתיחת התפריט'}
             aria-expanded={menuOpen}
+            aria-controls="main-nav"
+            ref={menuButtonRef}
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}

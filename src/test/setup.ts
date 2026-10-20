@@ -18,3 +18,18 @@ if (typeof HTMLDialogElement !== 'undefined' && !HTMLDialogElement.prototype.sho
     this.dispatchEvent(new Event('close'))
   }
 }
+
+// jsdom has no matchMedia: every media query answers "no match" (light theme, motion allowed, desktop width).
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList
+}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { usePrefetchTour } from '../hooks/useTourData'
 import { ArrowLeft, CalendarDays } from 'lucide-react'
 import type { TourSummary } from '@/api/types'
 import { Card, Skeleton } from '@/components/ui'
@@ -8,11 +9,12 @@ import styles from './TourCard.module.css'
 
 /** One tour in a list. The whole card is clickable through its title link (a stretched link, see the CSS). */
 export function TourCard({ tour }: { tour: TourSummary }) {
+  const prefetch = usePrefetchTour(tour.id)
   return (
     <Card as="article" padding="md" interactive className={styles.card}>
       <header className={styles.header}>
         <h3 className={styles.title}>
-          <Link to={`/tours/${tour.id}`} viewTransition className={styles.link}>
+          <Link to={`/tours/${tour.id}`} viewTransition className={styles.link} onMouseEnter={prefetch} onFocus={prefetch}>
             {tour.destinationName}
           </Link>
         </h3>

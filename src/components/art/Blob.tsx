@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import styles from './art.module.css'
 
 // Hand-drawn organic outlines in a 200x200 box. All four have exactly the same commands and segment counts
@@ -30,9 +31,13 @@ interface BlobProps {
 export function Blob({ shape = 0, tone = 0, style }: BlobProps) {
   const from = shapes[shape % shapes.length]
   const to = shapes[(shape + 1) % shapes.length]
+  // The global CSS rule stops CSS animations for people who asked for less motion, but SMIL is not CSS:
+  // the <animate> element has to be left out here.
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   return (
     <svg className={styles.blob} style={style} viewBox="0 0 200 200" aria-hidden="true" focusable="false">
       <path d={from} fill={fills[tone % fills.length]}>
+        {!reduceMotion && (
         <animate
           attributeName="d"
           dur="30s"
@@ -42,6 +47,7 @@ export function Blob({ shape = 0, tone = 0, style }: BlobProps) {
           keySplines="0.37 0 0.63 1;0.37 0 0.63 1"
           values={`${from};${to};${from}`}
         />
+        )}
       </path>
     </svg>
   )

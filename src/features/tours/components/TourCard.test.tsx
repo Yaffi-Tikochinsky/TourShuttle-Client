@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import type { TourSummary } from '@/api/types'
+import { renderWithProviders } from '@/test/renderWithProviders'
 import { TourCard } from './TourCard'
 
 const tour = (overrides: Partial<TourSummary> = {}): TourSummary => ({
@@ -22,12 +22,7 @@ const tour = (overrides: Partial<TourSummary> = {}): TourSummary => ({
   ...overrides,
 })
 
-const renderCard = (t: TourSummary) =>
-  render(
-    <MemoryRouter>
-      <TourCard tour={t} />
-    </MemoryRouter>,
-  )
+const renderCard = (t: TourSummary) => renderWithProviders(<TourCard tour={t} />)
 
 describe('TourCard', () => {
   it('links to the tour and shows its route, times and price', () => {

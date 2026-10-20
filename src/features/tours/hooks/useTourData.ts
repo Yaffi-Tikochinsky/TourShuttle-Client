@@ -1,4 +1,5 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query'
+import { pageLoaders } from '@/app/pageLoaders'
 import { destinationsApi, pickupPointsApi, toursApi } from '@/api/tours.api'
 import type { TourQuery } from '@/api/types'
 import { useFetch } from '@/hooks/useFetch'
@@ -29,6 +30,23 @@ export function useTour(id: number) {
     queryFn: ({ signal }) => toursApi.get(id, signal),
     enabled: Number.isInteger(id) && id > 0,
   })
+}
+
+/**
+ * Returns a function that starts loading a tour's page before it is opened: its code and its data.
+ * Called on hover or focus, it usually finishes in the moment between pointing and clicking.
+ * prefetchQuery does nothing if fresh data is already cached (staleTime), so repeated hovers are free.
+ */
+export function usePrefetchTour(id: number) {
+  const queryClient = useQueryClient()
+  return () => {
+    void pageLoaders.tourDetails()
+    void queryClient.prefetchQuery({
+      queryKey: tourKeys.detail(id),
+      queryFn: ({ signal }) => toursApi.get(id, signal),
+      staleTime: 30_000,
+    })
+  }
 }
 
 /** Destinations change rarely: cached for ten minutes. */

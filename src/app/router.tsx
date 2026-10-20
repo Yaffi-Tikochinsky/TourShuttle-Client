@@ -4,6 +4,7 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { GuestOnly, RequireRole } from '@/features/auth/RouteGuards'
 import NotFoundPage from '@/features/system/NotFoundPage'
 import { RouteErrorPage } from '@/features/system/RouteErrorPage'
+import { pageLoaders } from './pageLoaders'
 
 // This file defines routes, not UI, so fast refresh (which the lint rule protects) does not apply here.
 /* oxlint-disable react/only-export-components */
@@ -11,14 +12,15 @@ import { RouteErrorPage } from '@/features/system/RouteErrorPage'
 // Code splitting: each page is its own JavaScript file, downloaded the first time someone opens it.
 // While it downloads, <Suspense> in AppLayout shows a spinner. NotFoundPage stays in the main bundle:
 // it is tiny, and the error page needs it even when downloading code is what failed.
-const HomePage = lazy(() => import('@/features/home/HomePage'))
-const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'))
-const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'))
-const ToursPage = lazy(() => import('@/features/tours/pages/ToursPage'))
-const TourDetailsPage = lazy(() => import('@/features/tours/pages/TourDetailsPage'))
-const MyBookingsPage = lazy(() => import('@/features/bookings/pages/MyBookingsPage'))
-const DriverToursPage = lazy(() => import('@/features/driver/pages/DriverToursPage'))
-const PassengersPage = lazy(() => import('@/features/driver/pages/PassengersPage'))
+// The import functions live in pageLoaders, so other code can preload a page before it is opened.
+const HomePage = lazy(pageLoaders.home)
+const LoginPage = lazy(pageLoaders.login)
+const RegisterPage = lazy(pageLoaders.register)
+const ToursPage = lazy(pageLoaders.tours)
+const TourDetailsPage = lazy(pageLoaders.tourDetails)
+const MyBookingsPage = lazy(pageLoaders.myBookings)
+const DriverToursPage = lazy(pageLoaders.driverTours)
+const PassengersPage = lazy(pageLoaders.passengers)
 
 export const router = createBrowserRouter([
   {

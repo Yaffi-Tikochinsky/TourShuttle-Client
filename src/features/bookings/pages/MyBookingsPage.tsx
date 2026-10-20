@@ -83,7 +83,10 @@ export default function MyBookingsPage() {
           </TabButton>
         </div>
 
-        <div role="tabpanel" aria-label={tab === 'upcoming' ? 'הזמנות קרובות' : 'היסטוריית הזמנות'}>
+        <div role="tabpanel" aria-labelledby="bookings-panel-title">
+          <h2 id="bookings-panel-title" className="visually-hidden">
+            {tab === 'upcoming' ? 'הזמנות קרובות' : 'היסטוריית הזמנות'}
+          </h2>
           {error ? (
             <ApiErrorAlert
               error={toApiError(error)}

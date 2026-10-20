@@ -96,10 +96,14 @@ export default function ToursPage() {
             }
           />
         ) : (
+          <>
+          {/* Screen-reader users jump by headings: h1 -> h2 -> the cards' h3, with no level skipped. */}
+          <h2 className="visually-hidden">תוצאות החיפוש</h2>
           <div className={cx(styles.grid, isRefreshing && styles.refreshing)} aria-busy={isRefreshing}>
             {isLoading && Array.from({ length: 6 }, (_, i) => <TourCardSkeleton key={i} />)}
             {data?.items.map((tour) => <TourCard key={tour.id} tour={tour} />)}
           </div>
+          </>
         )}
 
         {data && (

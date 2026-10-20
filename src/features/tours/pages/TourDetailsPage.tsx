@@ -1,16 +1,17 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router'
-import { ArrowRight, CalendarDays, Clock, LogIn, Timer, UserRound } from 'lucide-react'
+import { ArrowRight, CalendarDays, Clock, LogIn, Ticket, Timer, UserRound } from 'lucide-react'
 import type { TourDetails } from '@/api/types'
 import { Blob } from '@/components/art/Blob'
 import { LostPath } from '@/components/art/Ornaments'
 import { SiteIllustration } from '@/components/art/SiteIllustration'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
-import { Alert, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
+import { Alert, Button, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
 import { BookingPanel } from '@/features/bookings/components/BookingPanel'
 import { useAuth } from '@/features/auth/useAuth'
 import type { LoginRedirectState } from '@/features/auth/RouteGuards'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useInView } from '@/hooks/useInView'
 import { toApiError } from '@/lib/errors'
 import { formatDay, formatPrice, formatTime } from '@/lib/format'
 import { siteKindFor } from '@/lib/sites'
@@ -24,6 +25,8 @@ export default function TourDetailsPage() {
   const { data: tour, isPending, error } = useTour(id)
   // The stop chosen in the booking panel, lifted up here so the route on the left can highlight it too.
   const [selectedStopId, setSelectedStopId] = useState<number>()
+  // Live (not once): the mobile booking bar shows only while the booking card itself is off screen.
+  const [asideRef, asideVisible] = useInView<HTMLElement>({ once: false })
   useDocumentTitle(tour ? `הסעה אל ${tour.destinationName}` : 'פרטי הסעה')
 
   if (error) {
@@ -95,11 +98,39 @@ export default function TourDetailsPage() {
           </section>
         </div>
 
-        <aside className={styles.aside} aria-label="הזמנה">
+        <aside className={styles.aside} aria-label="הזמנה" id="booking" ref={asideRef} tabIndex={-1}>
           <BookingSummary tour={tour} onStopSelected={setSelectedStopId} />
         </aside>
       </div>
+
+      <MobileBookingBar tour={tour} hidden={asideVisible} />
     </article>
+  )
+}
+
+/**
+ * Phones only (CSS): the booking card sits below the route, so a bar at the bottom of the screen keeps the price
+ * and the way to it at hand. It slides away while the card itself is on screen.
+ */
+function MobileBookingBar({ tour, hidden }: { tour: TourDetails; hidden: boolean }) {
+  const open = tour.displayStatus === 'Scheduled' && tour.availableSeats > 0
+  const goToBooking = () => {
+    const aside = document.getElementById('booking')
+    aside?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    // Move keyboard and screen-reader focus there too, without a second jump.
+    aside?.focus({ preventScroll: true })
+  }
+
+  return (
+    <div className={styles.mobileBar} data-hidden={hidden} aria-hidden={hidden || undefined} inert={hidden}>
+      <p className={styles.mobilePrice}>
+        {formatPrice(tour.price)}
+        <span className={styles.perSeat}> למקום</span>
+      </p>
+      <Button icon={<Ticket />} onClick={goToBooking}>
+        {open ? 'להזמנת מקום' : 'פרטי ההזמנה'}
+      </Button>
+    </div>
   )
 }
 
