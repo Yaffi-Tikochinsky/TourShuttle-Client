@@ -20,7 +20,7 @@ async function fillDriver() {
 
 describe('DriversPage', () => {
   it('sends a new driver to the admin endpoint', async () => {
-    const fetchMock = vi.fn(async (url: string, init?: RequestInit) =>
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) =>
       init?.method === 'POST'
         ? json(201, { id: 9, fullName: 'יוסף הנהג', email: 'yosef@tourshuttle.demo', phone: '050-7654321', role: 'Driver' })
         : json(200, []),
