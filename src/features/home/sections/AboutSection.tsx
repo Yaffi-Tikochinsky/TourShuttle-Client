@@ -31,7 +31,7 @@ export function AboutSection() {
         <Reveal className={styles.aboutText}>
           <span className="eyebrow">מי אנחנו</span>
           <h2 id="about-title" className={styles.sectionTitle}>
-            דרך ארוכה של אבן, אור ותפילה
+            שמחתי באומרים לי בית ה׳ נלך
           </h2>
           <p className={styles.aboutLead}>
             שבילי קדם מפעילה הסעות מאורגנות מערי המרכז אל המקומות הקדושים בירושלים ובגליל. אנחנו מאמינים שהדרך היא
