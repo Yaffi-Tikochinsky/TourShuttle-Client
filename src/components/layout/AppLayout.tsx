@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary'
+import { WakingServerNotice } from '@/components/feedback/WakingServerNotice'
 import { Spinner } from '@/components/ui'
 import { Footer } from './Footer'
 import { Header } from './Header'
@@ -27,6 +28,7 @@ export function AppLayout() {
         </ErrorBoundary>
       </main>
       <Footer />
+      <WakingServerNotice />
       <ScrollRestoration />
     </div>
   )

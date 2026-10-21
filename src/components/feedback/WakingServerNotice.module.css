@@ -1,0 +1,48 @@
+/* A small card at the bottom of the screen, rising in softly, with a cup that steams gently. */
+.notice {
+  position: fixed;
+  inset-inline-start: 50%;
+  bottom: var(--space-5);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: min(100% - 2 * var(--space-5), 30rem);
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+  translate: 50% 0;
+  animation: notice-in 900ms var(--ease-out) both;
+}
+
+.notice svg {
+  flex: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  color: var(--color-primary);
+  animation: steam 3.5s var(--ease-soft) infinite;
+}
+
+.notice strong {
+  color: var(--color-heading);
+}
+
+@keyframes notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes steam {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(-6deg);
+  }
+}
