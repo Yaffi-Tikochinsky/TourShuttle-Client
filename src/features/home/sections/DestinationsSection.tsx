@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { SiteIllustration } from '@/components/art/SiteIllustration'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Reveal } from '@/components/motion/Reveal'
@@ -18,6 +19,7 @@ export function DestinationsSection() {
   return (
     <section className={styles.section} aria-labelledby="destinations-title">
       <Blob shape={2} tone={1} style={{ top: 40, insetInlineEnd: -160, width: 420 }} />
+      <Dust count={14} seed={7} />
       <div className="container">
         <SectionHeading id="destinations-title" title="לאן יוצאים?" subtitle="בחרו מקום, ונראה לכם את ההסעות הקרובות אליו" />
 
@@ -36,7 +38,7 @@ export function DestinationsSection() {
             ))}
 
           {destinations?.map((destination, index) => (
-            <Reveal key={destination.id} delay={index * 90}>
+            <Reveal key={destination.id} delay={index * 110} variant="scale">
               <Card as="article" padding="none" interactive className={styles.destination}>
                 <div className={styles.destinationArt}>
                   <SiteIllustration kind={siteKindFor(destination.name, destination.city)} />

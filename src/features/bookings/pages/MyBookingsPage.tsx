@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router'
 import { Search } from 'lucide-react'
 import type { Booking } from '@/api/types'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { EmptyBench } from '@/components/art/Ornaments'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Button, ButtonLink, EmptyState, Modal, Skeleton, useToast } from '@/components/ui'
@@ -67,6 +68,7 @@ export default function MyBookingsPage() {
     <div className={styles.page}>
       <section className={styles.header}>
         <Blob shape={2} tone={1} style={{ top: -150, insetInlineStart: -140, width: 440 }} />
+        <Dust count={12} seed={4} />
         <div className="container">
           <h1 className={styles.title}>ההזמנות שלי</h1>
           <p className={styles.lead}>{firstName ? `שלום ${firstName}, ` : ''}כאן כל המקומות ששמרתם, וזמני האיסוף המשוערים.</p>

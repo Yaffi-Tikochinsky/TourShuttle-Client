@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { LostPath } from '@/components/art/Ornaments'
+import { Dust } from '@/components/art/Dust'
 import styles from './StatusPage.module.css'
 
 interface StatusPageProps {
@@ -13,6 +14,7 @@ interface StatusPageProps {
 export function StatusPage({ code, title, description, actions }: StatusPageProps) {
   return (
     <section className={`container ${styles.page}`}>
+      <Dust count={10} seed={17} />
       <LostPath className={styles.art} />
       <p className={styles.code} aria-hidden="true">
         {code}

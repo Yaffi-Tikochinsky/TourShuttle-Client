@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { WallSkyline } from '@/components/art/Ornaments'
+import { Dust } from '@/components/art/Dust'
 import { useAuth } from '@/features/auth/useAuth'
 import styles from './Footer.module.css'
 
@@ -11,6 +12,7 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <WallSkyline className={styles.skyline} />
+      <Dust count={12} seed={16} className={styles.dust} />
       <div className="container">
         <div className={styles.inner}>
           <div>

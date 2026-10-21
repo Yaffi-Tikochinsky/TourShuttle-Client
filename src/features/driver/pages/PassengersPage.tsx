@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router'
 import { ArrowRight, Printer, RotateCcw } from 'lucide-react'
 import type { TourPassengers } from '@/api/types'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { LostPath } from '@/components/art/Ornaments'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Button, ButtonLink, EmptyState, Skeleton } from '@/components/ui'
@@ -82,6 +83,7 @@ function PassengerBoard({ data, back, updatedAt }: PassengerBoardProps) {
     <div className={styles.page}>
       <section className={styles.header}>
         <Blob shape={1} tone={2} style={{ top: -170, insetInlineStart: -150, width: 460 }} />
+        <Dust count={10} seed={6} />
         <div className="container">
           <Link to={back.to} viewTransition className={styles.back}>
             <ArrowRight aria-hidden="true" />

@@ -3,8 +3,11 @@ import { Link, useLocation, useParams } from 'react-router'
 import { ArrowRight, CalendarDays, Clock, LogIn, Ticket, Timer, UserRound } from 'lucide-react'
 import type { TourDetails } from '@/api/types'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { LostPath } from '@/components/art/Ornaments'
 import { SiteIllustration } from '@/components/art/SiteIllustration'
+import { Parallax } from '@/components/motion/Parallax'
+import { Reveal } from '@/components/motion/Reveal'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Alert, Button, ButtonLink, Card, EmptyState, Skeleton } from '@/components/ui'
 import { BookingPanel } from '@/features/bookings/components/BookingPanel'
@@ -40,6 +43,7 @@ export default function TourDetailsPage() {
     <article className={styles.page}>
       <header className={styles.hero}>
         <Blob shape={0} tone={0} style={{ top: -160, insetInlineStart: -160, width: 480 }} />
+        <Dust count={14} seed={10} />
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroText}>
             <Link to="/tours" viewTransition className={styles.back}>
@@ -57,14 +61,16 @@ export default function TourDetailsPage() {
             {tour.displayStatus === 'Scheduled' && <DepartureCountdown departureAt={tour.departureAt} className={styles.countdown} />}
           </div>
           <div className={styles.heroArt}>
-            <SiteIllustration kind={siteKindFor(tour.destinationName, tour.city)} />
+            <Parallax>
+              <SiteIllustration kind={siteKindFor(tour.destinationName, tour.city)} />
+            </Parallax>
           </div>
         </div>
       </header>
 
       <div className={`container ${styles.body}`}>
         <div className={styles.main}>
-          <section aria-labelledby="facts-title">
+          <Reveal as="section" aria-labelledby="facts-title">
             <h2 id="facts-title" className={styles.sectionTitle}>
               פרטי ההסעה
             </h2>
@@ -74,9 +80,9 @@ export default function TourDetailsPage() {
               <Fact icon={<Timer />} label="חזרה משוערת" value={formatTime(tour.returnAt)} />
               {tour.driverName && <Fact icon={<UserRound />} label="נהג" value={tour.driverName} />}
             </dl>
-          </section>
+          </Reveal>
 
-          <section aria-labelledby="route-title">
+          <Reveal as="section" variant="scale" delay={120} aria-labelledby="route-title">
             <h2 id="route-title" className={styles.sectionTitle}>
               המסלול ותחנות האיסוף
             </h2>
@@ -95,7 +101,7 @@ export default function TourDetailsPage() {
                 selectedStopId={selectedStopId}
               />
             </Card>
-          </section>
+          </Reveal>
         </div>
 
         <aside className={styles.aside} aria-label="הזמנה" id="booking" ref={asideRef} tabIndex={-1}>

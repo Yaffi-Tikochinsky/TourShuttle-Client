@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { ArchScene } from '@/components/art/ArchScene'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { Card } from '@/components/ui'
 import styles from './AuthLayout.module.css'
 
@@ -19,6 +20,7 @@ export function AuthLayout({ title, subtitle, children, footer, aside }: AuthLay
   return (
     <section className={styles.wrapper}>
       <Blob shape={3} tone={0} style={{ top: -60, insetInlineEnd: -140, width: 460 }} />
+      <Dust count={16} seed={3} />
       <div className={`container ${styles.layout}`}>
         <div className={styles.visual} aria-hidden="true">
           <ArchScene />

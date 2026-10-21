@@ -460,3 +460,32 @@
     max-width: 230px;
   }
 }
+
+/* ---------- Floating icons ----------
+   The step and value icons rise and settle a few pixels, slowly, each a beat after the one before. */
+.stepIcon,
+.valueIcon {
+  animation: bob 6s var(--ease-soft) infinite;
+}
+
+.step:nth-child(2) .stepIcon,
+.value:nth-child(2) .valueIcon {
+  animation-delay: -2s;
+}
+
+.step:nth-child(3) .stepIcon,
+.value:nth-child(3) .valueIcon {
+  animation-delay: -4s;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--color-primary) 45%, transparent);
+  }
+}

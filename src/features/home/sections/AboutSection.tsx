@@ -1,5 +1,7 @@
 import { Clock3, HeartHandshake, ShieldCheck } from 'lucide-react'
+import { Dust } from '@/components/art/Dust'
 import { SiteIllustration } from '@/components/art/SiteIllustration'
+import { Parallax } from '@/components/motion/Parallax'
 import { Reveal } from '@/components/motion/Reveal'
 import styles from '../HomePage.module.css'
 
@@ -24,6 +26,7 @@ const values = [
 export function AboutSection() {
   return (
     <section className={styles.section} aria-labelledby="about-title">
+      <Dust count={12} seed={15} />
       <div className={`container ${styles.about}`}>
         <Reveal className={styles.aboutText}>
           <span className="eyebrow">מי אנחנו</span>
@@ -35,14 +38,14 @@ export function AboutSection() {
             חלק מהביקור: נסיעה נוחה, תחנה קרובה לבית, ושעה ידועה מראש, כדי שתגיעו אל הכותל או אל סמטאות צפת פנויים
             לרגע עצמו.
           </p>
-          <div className={styles.aboutArt}>
+          <Parallax speed="normal" className={styles.aboutArt}>
             <SiteIllustration kind="default" />
-          </div>
+          </Parallax>
         </Reveal>
 
         <ul className={styles.values}>
           {values.map((value, index) => (
-            <Reveal as="li" key={value.title} delay={index * 120} className={styles.value}>
+            <Reveal as="li" key={value.title} delay={index * 140} variant="side" className={styles.value}>
               <span className={styles.valueIcon}>{value.icon}</span>
               <div>
                 <h3 className={styles.valueTitle}>{value.title}</h3>

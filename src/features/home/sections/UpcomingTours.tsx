@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Reveal } from '@/components/motion/Reveal'
 import { TourCard, TourCardSkeleton } from '@/features/tours/components/TourCard'
@@ -15,6 +16,7 @@ export function UpcomingTours() {
   return (
     <section className={styles.section} aria-labelledby="upcoming-title">
       <Blob shape={3} tone={0} style={{ top: 80, insetInlineStart: -150, width: 400 }} />
+      <Dust count={12} seed={9} />
       <div className="container">
         <SectionHeading
           id="upcoming-title"

@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router'
 import { Bus, IdCard, Landmark, MapPin } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { cx } from '@/lib/cx'
 import styles from './AdminLayout.module.css'
 
@@ -21,6 +22,7 @@ export function AdminLayout() {
     <div className={styles.page}>
       <section className={styles.header}>
         <Blob shape={2} tone={2} style={{ top: -170, insetInlineEnd: -150, width: 440 }} />
+        <Dust count={12} seed={2} />
         <div className="container">
           <p className="eyebrow">אזור הניהול</p>
           <h1 className={styles.title}>ניהול שבילי קדם</h1>

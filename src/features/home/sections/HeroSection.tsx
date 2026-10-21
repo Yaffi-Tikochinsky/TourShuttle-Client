@@ -1,6 +1,8 @@
 import { Leaf } from 'lucide-react'
 import { ArchScene } from '@/components/art/ArchScene'
+import { Parallax } from '@/components/motion/Parallax'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { TourSearch } from '@/features/tours/components/TourSearch'
 import styles from '../HomePage.module.css'
 
@@ -8,6 +10,7 @@ export function HeroSection() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <Blob shape={0} tone={0} style={{ top: -120, insetInlineStart: -140, width: 520 }} />
+      <Dust count={20} seed={8} />
       <Blob shape={1} tone={2} style={{ top: 160, insetInlineEnd: -120, width: 380 }} />
 
       <div className={`container ${styles.heroInner}`}>
@@ -29,7 +32,9 @@ export function HeroSection() {
         </div>
 
         <div className={styles.heroArt}>
-          <ArchScene />
+          <Parallax>
+            <ArchScene />
+          </Parallax>
         </div>
       </div>
     </section>

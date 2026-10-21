@@ -93,11 +93,20 @@ textarea {
 /* Content revealed softly as it scrolls into view (see components/motion/Reveal). */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(36px);
   transition:
     opacity var(--duration-entrance) var(--ease-out),
     transform var(--duration-entrance) var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Variants: grow in from slightly smaller, or slide in from the reading side (right, in RTL). */
+.reveal[data-variant='scale'] {
+  transform: translateY(18px) scale(0.94);
+}
+
+.reveal[data-variant='side'] {
+  transform: translateX(42px);
 }
 
 .reveal[data-visible='true'] {

@@ -1,4 +1,6 @@
 .page {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,4 +36,9 @@
   justify-content: center;
   gap: var(--space-3);
   margin-top: var(--space-4);
+}
+
+.page > :not(:first-child) {
+  position: relative;
+  z-index: 1;
 }

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Reveal } from '@/components/motion/Reveal'
 import styles from '../HomePage.module.css'
 
 interface SectionHeadingProps {
@@ -11,7 +12,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ id, title, subtitle, action }: SectionHeadingProps) {
   return (
-    <div className={styles.sectionHeading}>
+    <Reveal variant="side" className={styles.sectionHeading}>
       <div>
         <h2 id={id} className={styles.sectionTitle}>
           {title}
@@ -19,6 +20,6 @@ export function SectionHeading({ id, title, subtitle, action }: SectionHeadingPr
         {subtitle && <p className={styles.sectionSubtitle}>{subtitle}</p>}
       </div>
       {action}
-    </div>
+    </Reveal>
   )
 }

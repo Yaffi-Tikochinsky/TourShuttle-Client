@@ -12,6 +12,8 @@ interface RouteBuilderProps {
   onChange: (route: number[]) => void
   disabled?: boolean
   error?: string
+  /** Shows a "new stop" button that asks the parent to create one. */
+  onCreateNew?: () => void
 }
 
 /**
@@ -19,7 +21,7 @@ interface RouteBuilderProps {
  * and the stops still available on the other, searchable by name or city.
  * Controlled: the form owns the list; this only reports the new list.
  */
-export function RouteBuilder({ points, value, onChange, disabled = false, error }: RouteBuilderProps) {
+export function RouteBuilder({ points, value, onChange, disabled = false, error, onCreateNew }: RouteBuilderProps) {
   const [search, setSearch] = useState('')
   // useDeferredValue: typing stays instant, and the filtered list catches up a moment later (low priority render).
   const deferredSearch = useDeferredValue(search.trim())
@@ -77,7 +79,15 @@ export function RouteBuilder({ points, value, onChange, disabled = false, error 
       </div>
 
       <div className={styles.column}>
-        <h3 className={styles.heading}>תחנות זמינות</h3>
+        <div className={styles.headingRow}>
+          <h3 className={styles.heading}>תחנות זמינות</h3>
+          {onCreateNew && !disabled && (
+            <button type="button" className={styles.createNew} onClick={onCreateNew}>
+              <Plus aria-hidden="true" />
+              תחנה חדשה
+            </button>
+          )}
+        </div>
         <label className={styles.search}>
           <Search aria-hidden="true" />
           <span className="visually-hidden">חיפוש תחנה</span>

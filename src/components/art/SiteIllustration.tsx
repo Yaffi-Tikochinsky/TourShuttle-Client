@@ -9,6 +9,14 @@ export function SiteIllustration({ kind, className }: { kind: SiteKind; classNam
   return (
     <svg viewBox="0 0 240 150" className={cx(styles.svg, className)} aria-hidden="true" focusable="false">
       {drawings[kind]}
+      {/* Dust in the air above the site, as in the gate on the home page. */}
+      <g>
+        <circle className={styles.mote} cx="58" cy="52" r="1.5" />
+        <circle className={styles.mote} cx="112" cy="34" r="1.2" />
+        <circle className={styles.mote} cx="168" cy="46" r="1.6" />
+        <circle className={styles.mote} cx="196" cy="70" r="1.2" />
+        <circle className={styles.mote} cx="84" cy="78" r="1.1" />
+      </g>
     </svg>
   )
 }

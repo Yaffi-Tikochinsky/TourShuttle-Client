@@ -1,0 +1,32 @@
+/* `translate` (not `transform`), so it adds to any transform the content animates by itself. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .slow {
+      animation: drift-slow linear both;
+      animation-timeline: view();
+    }
+
+    .normal {
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes drift-slow {
+  from {
+    translate: 0 28px;
+  }
+  to {
+    translate: 0 -28px;
+  }
+}
+
+@keyframes drift {
+  from {
+    translate: 0 56px;
+  }
+  to {
+    translate: 0 -56px;
+  }
+}

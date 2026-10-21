@@ -1,4 +1,5 @@
 import { Bus, MapPinned, Ticket } from 'lucide-react'
+import { Dust } from '@/components/art/Dust'
 import { Reveal } from '@/components/motion/Reveal'
 import styles from '../HomePage.module.css'
 import { SectionHeading } from './SectionHeading'
@@ -24,11 +25,12 @@ const steps = [
 export function HowItWorks() {
   return (
     <section className={styles.section} aria-labelledby="how-title">
+      <Dust count={10} seed={14} />
       <div className="container">
         <SectionHeading id="how-title" title="איך זה עובד" subtitle="שלושה צעדים, ואתם בדרך" />
         <ol className={styles.steps}>
           {steps.map((step, index) => (
-            <Reveal as="li" key={step.title} delay={index * 120} className={styles.step}>
+            <Reveal as="li" key={step.title} delay={index * 160} variant="scale" className={styles.step}>
               <span className={styles.stepNumber} aria-hidden="true">
                 {index + 1}
               </span>

@@ -1,7 +1,9 @@
 import { ArrowUpDown, X } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { EmptyBench } from '@/components/art/Ornaments'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
+import { Reveal } from '@/components/motion/Reveal'
 import { Button, EmptyState, Pagination, Select } from '@/components/ui'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cx } from '@/lib/cx'
@@ -27,6 +29,7 @@ export default function ToursPage() {
     <div className={styles.page}>
       <section className={styles.header}>
         <Blob shape={1} tone={0} style={{ top: -140, insetInlineEnd: -120, width: 420 }} />
+        <Dust count={14} seed={11} />
         <div className="container">
           <h1 className={styles.title}>הסעות קרובות</h1>
           <p className={styles.lead}>בחרו את העיר שלכם, ונראה לכם כל הסעה שיש בה תחנה קרובה.</p>
@@ -101,7 +104,11 @@ export default function ToursPage() {
           <h2 className="visually-hidden">תוצאות החיפוש</h2>
           <div className={cx(styles.grid, isRefreshing && styles.refreshing)} aria-busy={isRefreshing}>
             {isLoading && Array.from({ length: 6 }, (_, i) => <TourCardSkeleton key={i} />)}
-            {data?.items.map((tour) => <TourCard key={tour.id} tour={tour} />)}
+            {data?.items.map((tour, index) => (
+              <Reveal key={tour.id} delay={(index % 3) * 110}>
+                <TourCard tour={tour} />
+              </Reveal>
+            ))}
           </div>
           </>
         )}

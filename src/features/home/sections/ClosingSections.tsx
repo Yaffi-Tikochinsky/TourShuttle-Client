@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react'
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { OliveDivider } from '@/components/art/Ornaments'
 import { Reveal } from '@/components/motion/Reveal'
 import { ButtonLink } from '@/components/ui'
@@ -9,7 +10,8 @@ import styles from '../HomePage.module.css'
 export function QuoteSection() {
   return (
     <section className={styles.section} aria-label="מה אומרים הנוסעים">
-      <Reveal className={`container ${styles.quote}`}>
+      <Dust count={10} seed={13} />
+      <Reveal variant="scale" className={`container ${styles.quote}`}>
         <OliveDivider className={styles.quoteOrnament} />
         <blockquote className={styles.quoteText}>
           ״יצאנו בשש בבוקר מבית שמש, והגענו לצפת כשהערפל עוד שכב על ההרים. הנהג חיכה לנו בתחנה בדיוק בזמן, וכל
@@ -28,6 +30,7 @@ export function CallToAction() {
       <Reveal className="container">
         <div className={styles.cta}>
           <Blob shape={2} tone={1} style={{ top: -80, insetInlineStart: -60, width: 260 }} />
+          <Dust count={12} seed={12} />
           <div className={styles.ctaText}>
             <h2 id="cta-title" className={styles.ctaTitle}>
               המקום הבא שלכם כבר מחכה

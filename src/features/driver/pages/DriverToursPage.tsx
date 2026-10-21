@@ -1,4 +1,5 @@
 import { Blob } from '@/components/art/Blob'
+import { Dust } from '@/components/art/Dust'
 import { EmptyBench } from '@/components/art/Ornaments'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
 import { Button, EmptyState, Skeleton } from '@/components/ui'
@@ -29,6 +30,7 @@ export default function DriverToursPage() {
     <div className={styles.page}>
       <section className={styles.header}>
         <Blob shape={3} tone={0} style={{ top: -160, insetInlineEnd: -140, width: 460 }} />
+        <Dust count={12} seed={5} />
         <div className="container">
           <h1 className={styles.title}>ההסעות שלי</h1>
           <p className={styles.lead}>{firstName ? `${greetingFor(now)} ${firstName}. ` : ''}כל ההסעות שהוקצו לך, ומי עולה בכל תחנה.</p>

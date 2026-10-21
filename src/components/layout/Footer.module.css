@@ -1,4 +1,6 @@
 .footer {
+  position: relative;
+  isolation: isolate;
   margin-top: var(--space-9);
   padding-bottom: var(--space-5);
   background: var(--color-bg-muted);
@@ -60,4 +62,16 @@
   .footer {
     display: none;
   }
+}
+
+/* The dust stays in the band above the text, over the walls. */
+.dust {
+  bottom: auto;
+  height: 9rem;
+  top: -5rem;
+}
+
+.footer > :global(.container) {
+  position: relative;
+  z-index: 1;
 }
