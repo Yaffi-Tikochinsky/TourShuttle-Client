@@ -19,6 +19,8 @@ export const adminApi = {
   createTour: (request: TourRequest) => http.post<TourDetails>('/api/tours', request),
   updateTour: (id: number, request: TourRequest) => http.put<void>(`/api/tours/${id}`, request),
   deleteTour: (id: number) => http.delete(`/api/tours/${id}`),
+  /** Cancels a tour that has not left, with all its active bookings. Answers how many bookings were cancelled. */
+  cancelTour: (id: number) => http.post<{ tourId: number; cancelledBookings: number }>(`/api/tours/${id}/cancel`),
 
   createDestination: (request: DestinationRequest) => http.post<Destination>('/api/destinations', request),
   updateDestination: (id: number, request: DestinationRequest) => http.put<void>(`/api/destinations/${id}`, request),

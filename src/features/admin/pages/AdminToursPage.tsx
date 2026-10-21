@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
-import { Pencil, Plus, Trash2, Users } from 'lucide-react'
+import { Ban, Pencil, Plus, Trash2, Users } from 'lucide-react'
 import { adminApi } from '@/api/admin.api'
 import type { TourSummary } from '@/api/types'
 import { EmptyBench } from '@/components/art/Ornaments'
 import { ApiErrorAlert } from '@/components/feedback/ApiErrorAlert'
-import { Badge, Button, ButtonLink, EmptyState, Pagination, Skeleton, useToast } from '@/components/ui'
+import { Badge, Button, ButtonLink, EmptyState, Modal, Pagination, Skeleton, useToast } from '@/components/ui'
 import { StatusBadge } from '@/features/tours/components/TourBits'
 import { tourKeys } from '@/features/tours/hooks/useTourData'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cx } from '@/lib/cx'
 import { toApiError } from '@/lib/errors'
-import { formatCities, formatPrice, formatShortDay, formatTime } from '@/lib/format'
+import { formatCities, formatPrice, formatSeats, formatShortDay, formatTime } from '@/lib/format'
 import { ConfirmDelete } from '../components/ConfirmDelete'
 import { useAdminMutation, useAdminTours } from '../hooks/useAdminData'
 import shared from './AdminPages.module.css'
@@ -39,6 +39,22 @@ export default function AdminToursPage() {
 
   const [toDelete, setToDelete] = useState<TourSummary | null>(null)
   const remove = useAdminMutation(adminApi.deleteTour, [tourKeys.all])
+  const [toCancel, setToCancel] = useState<TourSummary | null>(null)
+  // Cancelling also cancels customers' bookings, so their lists are refreshed too.
+  const cancel = useAdminMutation(adminApi.cancelTour, [tourKeys.all, ['bookings']])
+
+  function confirmCancel() {
+    if (!toCancel) return
+    cancel.mutate(toCancel.id, {
+      onSuccess: ({ cancelledBookings }) =>
+        toast.success(
+          'ההסעה בוטלה',
+          cancelledBookings === 0 ? 'לא היו בה הזמנות פעילות.' : cancelledBookings === 1 ? 'הזמנה אחת בוטלה איתה.' : `${cancelledBookings} הזמנות בוטלו איתה.`,
+        ),
+      onError: (cause) => toast.error('ההסעה לא בוטלה', toApiError(cause).detail ?? toApiError(cause).headline),
+      onSettled: () => setToCancel(null),
+    })
+  }
 
   function confirmDelete() {
     if (!toDelete) return
@@ -46,7 +62,7 @@ export default function AdminToursPage() {
       onSuccess: () => toast.success('ההסעה נמחקה', `${toDelete.destinationName}, ${formatShortDay(toDelete.departureAt)}`),
       onError: (cause) => {
         const apiError = toApiError(cause)
-        toast.error('ההסעה לא נמחקה', apiError.status === 409 ? 'יש בה הזמנות, ולכן אי אפשר למחוק אותה.' : apiError.headline)
+        toast.error('ההסעה לא נמחקה', apiError.status === 409 ? 'יש בה הזמנות, ולכן אי אפשר למחוק אותה. אפשר לבטל אותה במקום.' : apiError.headline)
       },
       onSettled: () => setToDelete(null),
     })
@@ -136,6 +152,17 @@ export default function AdminToursPage() {
                       <div className={styles.rowActions}>
                         <ButtonLink to={`/admin/tours/${tour.id}/edit`} variant="ghost" size="sm" icon={<Pencil />} aria-label={`עריכת ההסעה אל ${tour.destinationName}`} />
                         <ButtonLink to={`/driver/tours/${tour.id}`} variant="ghost" size="sm" icon={<Users />} aria-label={`נוסעי ההסעה אל ${tour.destinationName}`} />
+                        {tour.displayStatus === 'Scheduled' && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            icon={<Ban />}
+                            className={shared.danger}
+                            aria-label={`ביטול ההסעה אל ${tour.destinationName}`}
+                            title="ביטול ההסעה"
+                            onClick={() => setToCancel(tour)}
+                          />
+                        )}
                         <Button
                           variant="ghost"
                           size="sm"
@@ -154,6 +181,34 @@ export default function AdminToursPage() {
           <Pagination page={page} totalPages={data.totalPages} isBusy={isPlaceholderData} onChange={setPage} />
         </>
       )}
+
+      <Modal
+        open={toCancel !== null}
+        onClose={() => setToCancel(null)}
+        title={toCancel ? `לבטל את ההסעה אל ${toCancel.destinationName}?` : ''}
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setToCancel(null)} disabled={cancel.isPending}>
+              השארת ההסעה
+            </Button>
+            <Button variant="danger" icon={<Ban />} isLoading={cancel.isPending} onClick={confirmCancel}>
+              ביטול ההסעה
+            </Button>
+          </>
+        }
+      >
+        {toCancel && (
+          <>
+            <p>
+              {formatShortDay(toCancel.departureAt)} בשעה {formatTime(toCancel.departureAt)}.{' '}
+              {toCancel.capacity === toCancel.availableSeats
+                ? 'אין בה הזמנות.'
+                : `כל ההזמנות בה יבוטלו יחד איתה (${formatSeats(toCancel.capacity - toCancel.availableSeats)}).`}
+            </p>
+            <p>ההסעה תישאר ברשימה עם הסימון "בוטלה", ואי אפשר יהיה להזמין בה מקומות. אי אפשר לבטל את הביטול.</p>
+          </>
+        )}
+      </Modal>
 
       <ConfirmDelete
         itemName={toDelete ? `ההסעה אל ${toDelete.destinationName}` : null}

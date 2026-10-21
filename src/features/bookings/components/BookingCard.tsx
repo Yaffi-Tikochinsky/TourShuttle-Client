@@ -68,6 +68,8 @@ export function BookingCard({ booking, onCancel }: BookingCardProps) {
 }
 
 function BookingStatus({ booking }: { booking: Booking }) {
+  // The tour was cancelled by the company: said first, so the customer knows it was not their own cancellation.
+  if (booking.tourDisplayStatus === 'Cancelled') return <Badge tone="danger">ההסעה בוטלה</Badge>
   if (booking.status === 'Cancelled') return <Badge tone="danger">בוטלה</Badge>
   switch (booking.tourDisplayStatus) {
     case 'Scheduled':
@@ -76,7 +78,5 @@ function BookingStatus({ booking }: { booking: Booking }) {
       return <Badge tone="info">בדרך</Badge>
     case 'Completed':
       return <Badge tone="neutral">הסתיימה</Badge>
-    case 'Cancelled':
-      return <Badge tone="danger">ההסעה בוטלה</Badge>
   }
 }
