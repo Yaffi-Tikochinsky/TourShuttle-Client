@@ -86,13 +86,17 @@ export function BookingPanel({ tour, onStopSelected }: BookingPanelProps) {
           if (toApiError(error).status !== 409) return
           // 409: someone changed the tour first. Rather than only showing an error, look at what is true now:
           // the fresh tour (how many seats are left) and the fresh booking list (did this customer already book?).
-          const [fresh] = await Promise.all([
-            queryClient.fetchQuery({ queryKey: tourKeys.detail(tour.id), queryFn: () => toursApi.get(tour.id), staleTime: 0 }),
-            queryClient.refetchQueries({ queryKey: bookingKeys.mine }),
-          ])
-          if (fresh.availableSeats < requested) {
-            createBooking.reset()
-            dispatch({ type: 'seatsTaken', requested, available: fresh.availableSeats })
+          try {
+            const [fresh] = await Promise.all([
+              queryClient.fetchQuery({ queryKey: tourKeys.detail(tour.id), queryFn: () => toursApi.get(tour.id), staleTime: 0 }),
+              queryClient.refetchQueries({ queryKey: bookingKeys.mine }),
+            ])
+            if (fresh.availableSeats < requested) {
+              createBooking.reset()
+              dispatch({ type: 'seatsTaken', requested, available: fresh.availableSeats })
+            }
+          } catch {
+            // The check itself failed (for example, the connection dropped): the 409 message stays on screen.
           }
         },
       },
